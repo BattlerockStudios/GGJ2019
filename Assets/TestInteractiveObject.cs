@@ -5,11 +5,13 @@ using UnityEngine;
 public class TestInteractiveObject : InteractiveObject
 {
 
-    public override void Interact()
+    public override void BeginInteraction(IInteractionSource interactionSource)
     {
-        base.Interact();
+        base.BeginInteraction(interactionSource);
 
-        Debug.Log("I farted on the meat!");
+        Debug.Log($"Interacted with {name}");
+
+        ReleaseInteraction();
     }
 
 }
