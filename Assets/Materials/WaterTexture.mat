@@ -39,5 +39,5 @@ Material:
     - _Speed: 0.5
     - _TextureDistort: 0.1
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 0.5}
-    - _FoamC: {r: 1, g: 1, b: 1, a: 0.5}
+    - _Color: {r: 0, g: 0, b: 1, a: 1}
+    - _FoamC: {r: 0, g: 0, b: 1, a: 1}
