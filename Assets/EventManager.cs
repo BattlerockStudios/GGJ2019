@@ -14,6 +14,15 @@ public class EventManager : MonoBehaviour
 
     private void Start()
     {
+        var childEvents = GetComponentsInChildren<EventBox>();
+        RandomizeBoard(childEvents);
+
+        var startTile = childEvents.Where(e => e is PlayerStartEventBox).FirstOrDefault();
+        startTile.StartEvent();
+    }
+
+    private void RandomizeBoard(EventBox[] childEvents)
+    {
         var exhaustiveList = new List<EventBox>();
         var totalCapacity = m_columns * m_columns;
         for (int i = 0; i < totalCapacity; i++)
@@ -21,11 +30,9 @@ public class EventManager : MonoBehaviour
             exhaustiveList.Add(null);
         }
 
-        var childEvents = GetComponentsInChildren<EventBox>();
-        for (int i = 0; i < childEvents.Length; i++)
+        for (int i = 0; i < Mathf.Min(childEvents.Length, totalCapacity); i++)
         {
-            //$$ this can overwrite old indexes!
-            exhaustiveList[Random.Range(0, exhaustiveList.Count)] = childEvents[i];
+            exhaustiveList[i] = childEvents[i];
         }
 
         if (exhaustiveList.Count > 2)
@@ -46,42 +53,25 @@ public class EventManager : MonoBehaviour
             }
         }
 
-        for (int x = 0; x < m_columns; x++)
+        for (int row = 0; row < m_columns; row++)
         {
-            for (int y = 0; y < m_columns; y++)
+            for (int col = 0; col < m_columns; col++)
             {
-                var current = exhaustiveList[x + y];
+                var index = (row * m_columns) + col;
+                var current = exhaustiveList[index];
                 if (current != null)
                 {
-                    current.transform.position = new Vector3(x * m_cellSize, 0f, y * m_cellSize);
+                    current.transform.localPosition = new Vector3(col * m_cellSize, 0f, row * m_cellSize);
+                    current.transform.GetComponent<BoxCollider>().size = Vector3.one * m_cellSize;
                 }
             }
         }
-
-        var startTile = childEvents.Where(e => e is PlayerStartEventBox).FirstOrDefault();
-        startTile.StartEvent();
     }
 
     private void OnValidate()
     {
-        var column = 0;
-        var row = 0;
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            var childTransform = transform.GetChild(i);
-            var colliderw = childTransform.GetComponent<BoxCollider>();
-            colliderw.size = Vector3.one * m_cellSize;
-
-            childTransform.localPosition = new Vector3(column * m_cellSize, 0f, row * m_cellSize);
-
-            column++;
-
-            if(column >= m_columns)
-            {
-                column = 0;
-                row++;
-            }
-        }
+        var childEvents = GetComponentsInChildren<EventBox>();
+        RandomizeBoard(childEvents);
     }
 
 }
