@@ -1,10 +1,23 @@
-﻿using System;
-namespace AssemblyCSharp.Assets
+﻿using UnityEngine;
+
+public class PlayerStartEventBox : EventBox
 {
-    public class PlayerStartEventBox
+
+    [SerializeField]
+    private Transform m_playerTransform = null;
+
+    public override void StartEvent()
     {
-        public PlayerStartEventBox()
-        {
-        }
+        m_playerTransform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+        m_playerTransform.rotation = transform.rotation;
+
+        Debug.Log("Start");
+        enabled = false;
     }
+
+    public override void StopEvent()
+    {
+        Debug.Log("End");
+    }
+
 }

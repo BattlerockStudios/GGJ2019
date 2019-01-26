@@ -1,10 +1,21 @@
-﻿using System;
-namespace AssemblyCSharp.Assets
+﻿using UnityEngine;
+
+public abstract class EventBox : MonoBehaviour
 {
-    public class EventBox
+
+    public int Priority = 0;
+
+    public abstract void StartEvent();
+    public abstract void StopEvent();
+
+    private void OnTriggerEnter(Collider other)
     {
-        public EventBox()
-        {
-        }
+        StartEvent();   
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        StopEvent();
+    }
+
 }
