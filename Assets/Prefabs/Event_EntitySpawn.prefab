@@ -57,4 +57,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63524f20413f3d54f988d7d18832abec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entitySpawner: {fileID: 11400000, guid: 9a9fd26fad98da54199d81fadbac1b31, type: 2}
+  m_entitySpawner: {fileID: 11400000, guid: 9a9fd26fad98da54199d81fadbac1b31, type: 2}
