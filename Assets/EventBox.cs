@@ -2,9 +2,6 @@
 
 public abstract class EventBox : MonoBehaviour
 {
-
-    public int Priority = 0;
-
     public abstract void StartEvent();
     public abstract void StopEvent();
 
