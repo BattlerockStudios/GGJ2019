@@ -4,6 +4,11 @@ using UnityEngine;
 public class InteractiveObject : MonoBehaviour
 {
 
+    public bool IsBeingInteractedWith
+    {
+        get { return m_interactionSource != null; }
+    }
+
     public Material SelectedMaterial = null;
     public Material DeselectedMaterial = null;
     public Renderer Renderer = null;
@@ -34,6 +39,16 @@ public class InteractiveObject : MonoBehaviour
     {
         m_interactionSource?.OnInteractionEnd(this);
         m_interactionSource = null;
+    }
+
+    private void Update()
+    {
+        InteractionUpdate(IsBeingInteractedWith);
+    }
+
+    protected virtual void InteractionUpdate(bool isBeingInteractedWith)
+    {
+
     }
 
 }
