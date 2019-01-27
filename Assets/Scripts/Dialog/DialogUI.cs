@@ -63,6 +63,10 @@ namespace Yarn.Unity.Example
         [Tooltip("How quickly to show the text, in seconds per character")]
         public float textSpeed = 0.025f;
 
+        private float m_textLineWaitTime = 2.5f;
+
+        public float defaultTextLineWaitTime = 2.5f;
+
         /// The buttons that let the user choose an option
         public List<Button> optionButtons;
 
@@ -112,15 +116,24 @@ namespace Yarn.Unity.Example
                 tmPro_lineText.text = line.text;
             }
 
-            // Show the 'press any key' prompt when done, if we have one
-            if (continuePrompt != null)
-                continuePrompt.SetActive(true);
 
-            // Wait for any user input
-            while (Input.anyKeyDown == false)
+            while(m_textLineWaitTime > 0)
             {
+                m_textLineWaitTime -= Time.deltaTime;
                 yield return null;
             }
+
+            m_textLineWaitTime = defaultTextLineWaitTime;
+
+            //// Show the 'press any key' prompt when done, if we have one
+            //if (continuePrompt != null)
+            //    continuePrompt.SetActive(true);
+
+            //// Wait for any user input
+            //while (Input.anyKeyDown == false)
+            //{
+            //    yield return null;
+            //}
 
             tmPro_lineText.gameObject.SetActive(false);
 

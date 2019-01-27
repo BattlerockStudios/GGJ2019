@@ -19,7 +19,7 @@ public class Dialog : MonoBehaviour
     }
 
     // Use this for initialization
-    void PlayDialog()
+    public void PlayDialog()
     {
         if (scriptToLoad != null)
         {
