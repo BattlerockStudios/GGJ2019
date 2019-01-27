@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e191aba4a364d24dba83f5d40046012, type: 3}
   m_Name: EntitySpawnerData
   m_EditorClassIdentifier: 
-  entitiesToSpawn: []
+  entitiesToSpawn:
+  - {fileID: 8010512093120389507, guid: 15ca3b0a9cb31457f906faaf86582104, type: 3}
