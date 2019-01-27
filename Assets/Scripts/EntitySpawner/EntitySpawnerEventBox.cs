@@ -40,7 +40,9 @@ public class EntitySpawnerEventBox : EventBox, ISpawnParent
             return;
         }
 
-        m_spawnPoints = GetComponentsInChildren<Transform>();
+        var transforms = new List<Transform>(GetComponentsInChildren<Transform>());
+        transforms.Remove(transform);
+        m_spawnPoints = transforms.ToArray();
 
         var entitiesToSpawn = m_entitySpawner.entitiesToSpawn;
         m_entity = Instantiate(entitiesToSpawn[Random.Range(0, entitiesToSpawn.Length)], m_spawnPoints[Random.Range(0, m_spawnPoints.Length)].position, Quaternion.identity);
