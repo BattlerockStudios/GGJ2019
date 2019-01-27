@@ -1,0 +1,14 @@
+title: Start
+tags: 
+colorID: 0
+position: 543,261
+---
+There is a lot to say but not a lot of time. This is hopefully going to be formatted all cool like because of unity. but we shall see.
+===
+title: Test
+tags: 
+colorID: 0
+position: 809,280
+---
+This is a confusing set of text that follows up the previous dialog. Maybe you can figure it out on your own. I think limiting the horizontal size of the text in Unity is the way to go. We'll see if that works.
+===

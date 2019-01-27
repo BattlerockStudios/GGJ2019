@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Dialog : MonoBehaviour
 {
@@ -17,12 +15,5 @@ public class Dialog : MonoBehaviour
         {
             FindObjectOfType<Yarn.Unity.DialogueRunner>().AddScript(scriptToLoad);
         }
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
