@@ -16,13 +16,13 @@ public class PlayerStartEventBox : EventBox
             return;
         }
 
-        if(m_dialogTrigger != null)
+        m_playerTransform.position = new Vector3(transform.position.x, 0f, transform.position.z);
+        m_playerTransform.rotation = transform.rotation;
+
+        if (m_dialogTrigger != null)
         {
             m_dialogTrigger.PlayDialog();
         }
-
-        m_playerTransform.position = new Vector3(transform.position.x, 0f, transform.position.z);
-        m_playerTransform.rotation = transform.rotation;
 
         Debug.Log(this.name + " Start");
 

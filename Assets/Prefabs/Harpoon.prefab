@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectedMaterial: {fileID: 2100000, guid: 2f29c1d753d4046ac9254996857f483c, type: 2}
-  DeselectedMaterial: {fileID: 2100000, guid: 2b69fb68cf9b549a8a682ef98459d651, type: 2}
+  DeselectedMaterial: {fileID: 2100000, guid: 7450b60a946448b4489ae5385695c90a, type: 2}
   Renderer: {fileID: 3840456354444572450}
   m_harpoonSpeed: 0.25
   m_maxXAngle: 45

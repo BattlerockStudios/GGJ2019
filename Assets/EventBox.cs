@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class EventBox : MonoBehaviour
 {
@@ -9,7 +10,14 @@ public abstract class EventBox : MonoBehaviour
     {
         if (other.transform.tag == "Boat")
         {
-            StartEvent();
+            try
+            {
+                StartEvent();
+            }
+            catch(Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
     }
 
@@ -17,7 +25,14 @@ public abstract class EventBox : MonoBehaviour
     {
         if (other.transform.tag == "Boat")
         {
-            StopEvent();
+            try
+            {
+                StopEvent();
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
     }
 
