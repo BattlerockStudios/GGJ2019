@@ -63,7 +63,17 @@ ModelImporter:
     4300016: sale_boom
     4300018: Sale_Spar
     10800000: Lamp
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 6120e8d3780a59947a04609cdb395bd4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: 777440f27167a51499fd6358b10cd973, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
