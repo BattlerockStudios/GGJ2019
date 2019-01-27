@@ -1,4 +1,8 @@
-﻿using UnityEditor;
+﻿
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 using UnityEngine;
 
 public class EntitySpawnerData : ScriptableObject
@@ -6,6 +10,7 @@ public class EntitySpawnerData : ScriptableObject
     public GameObject[] entitiesToSpawn;
 }
 
+#if UNITY_EDITOR
 public class CreateScriptableAsset
 {
     [MenuItem("EntitySpawner", menuItem = "Battlerock/CreateEntitySpawnerData", priority = 1)]
@@ -24,3 +29,4 @@ public class CreateScriptableAsset
         Selection.activeObject = asset;
     }
 }
+#endif
