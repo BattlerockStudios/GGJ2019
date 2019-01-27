@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour, IInteractionSource
     private float m_moveSpeed = 1f;
 
     [SerializeField]
+    private float m_rotationSpeed = 5f;
+
+    [SerializeField]
     private Rigidbody m_rigidBody = null;
 
     private Vector2 m_inputLastFrame = Vector2.zero;
@@ -31,9 +34,33 @@ public class PlayerController : MonoBehaviour, IInteractionSource
 
     private Animator m_animator = null;
 
+    [SerializeField]
+    private Transform m_childTransformToFlip = null;
+    private float m_rotationDegrees = 180.0f;
+
     private void Start()
     {
         m_animator = GetComponent<Animator>();
+    }
+
+    private void FlipCharacter(float inputDirection)
+    {
+        Vector3 direction = Vector3.zero;
+        Quaternion targetRotation = Quaternion.identity;
+
+        if (inputDirection == 0)
+        {
+            direction = new Vector3(m_childTransformToFlip.rotation.eulerAngles.x, m_rotationDegrees, m_childTransformToFlip.rotation.eulerAngles.z);
+            targetRotation = Quaternion.Euler(direction);
+            this.m_childTransformToFlip.rotation = Quaternion.Lerp(m_childTransformToFlip.rotation, targetRotation, Time.deltaTime * m_rotationSpeed);
+            return;
+        }
+
+        m_rotationDegrees = inputDirection > 0 ? 180.0f : 0.0f;
+
+        direction = new Vector3(m_childTransformToFlip.rotation.eulerAngles.x, m_rotationDegrees, m_childTransformToFlip.rotation.eulerAngles.z);
+        targetRotation = Quaternion.Euler(direction);
+        this.m_childTransformToFlip.rotation = Quaternion.Lerp(m_childTransformToFlip.rotation, targetRotation, Time.deltaTime * m_rotationSpeed);
     }
 
     private void Update()
@@ -45,6 +72,8 @@ public class PlayerController : MonoBehaviour, IInteractionSource
             m_inputLastFrame = new Vector2(horizontalMovement, verticalMovement);
 
             m_animator.SetFloat("MoveSpeed", m_inputLastFrame.magnitude);
+
+            FlipCharacter(horizontalMovement);
 
             if (!m_timeOfLastAutoSort.HasValue || (DateTime.UtcNow - m_timeOfLastAutoSort.Value).TotalSeconds > AUTO_SORT_SECONDS)
             {
