@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: Wowee
-  talkToNode: Start
-  scriptToLoad: {fileID: 4900000, guid: c36e2ecf392176240a6d4c66c3fdd855, type: 3}
+  talkToNode: Nearby
+  scriptToLoad: {fileID: 4900000, guid: 5ed1a4f777c2bee47b1a97e089ae5eac, type: 3}
   playOnStart: 1

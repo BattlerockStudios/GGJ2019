@@ -367,7 +367,6 @@ namespace Yarn {
             }
 
             program = loader.Load(text, library, fileName, program, showTokens, showParseTree, onlyConsiderNode, format, this.experimentalMode);
-
         }
 
         private VirtualMachine vm;

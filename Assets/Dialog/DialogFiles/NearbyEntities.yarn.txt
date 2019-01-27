@@ -1,0 +1,51 @@
+title: Start
+tags: 
+colorID: 0
+position: 540,260
+---
+There's a thing out there.
+If you can find it.
+Not like you are good at finding anything.
+Prove me wrong.
+===
+
+title: Nearby2
+tags: 
+colorID: 0
+position: 728,182
+---
+Listen.
+You're not gonna make it home at this rate.
+I'm just sayin'.
+Maybe if you look around you, you might stumble across something useful.
+===
+title: Nearby3
+tags: 
+colorID: 0
+position: 271,128
+---
+I know I repeat myself, but...
+It's 'cause this is taking too long.
+Try to be more observant of your surroundings.
+Like...look for some floating objects.
+Or not. I don't care.
+===
+title: Nearby4
+tags: 
+colorID: 0
+position: 149,305
+---
+Sailing the seven seas...
+More like...
+"Snailing" the seven seas.
+You're hopeless.
+===
+title: Nearby5
+tags: 
+colorID: 0
+position: 347,363
+---
+Go North.
+Just kidding.
+You're so gullible.
+===
