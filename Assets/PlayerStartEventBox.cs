@@ -6,11 +6,19 @@ public class PlayerStartEventBox : EventBox
     [SerializeField]
     private Transform m_playerTransform = null;
 
+    [SerializeField]
+    private Dialog m_dialogTrigger = null;
+
     public override void StartEvent()
     {
         if(!enabled)
         {
             return;
+        }
+
+        if(m_dialogTrigger != null)
+        {
+            m_dialogTrigger.PlayDialog();
         }
 
         m_playerTransform.position = new Vector3(transform.position.x, 0f, transform.position.z);
