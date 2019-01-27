@@ -4,6 +4,8 @@ using UnityEngine;
 public class InteractiveObject : MonoBehaviour
 {
 
+    protected Guid m_uniqueID = Guid.NewGuid();
+
     public bool IsBeingInteractedWith
     {
         get { return m_interactionSource != null; }
