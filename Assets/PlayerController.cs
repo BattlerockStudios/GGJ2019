@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour, IInteractionSource
     private InteractiveObject m_selectedInteractive = null;
     private InteractiveObject m_interactingInteractive = null;
     private DateTime? m_timeOfLastAutoSort = null;
+
+    [SerializeField]
     private float m_willingness = 0f;
 
     private Animator m_animator = null;

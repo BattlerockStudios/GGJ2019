@@ -21,6 +21,9 @@ public class EnemyBoundary : MonoBehaviour, ISpawnParent
     [SerializeField]
     private Collider m_collider = null;
 
+    [SerializeField]
+    private Transform m_waterTransform = null;
+
     private CombatEntity m_boatController = null;
 
     private readonly List<EnemyController> m_spawnedChildren = new List<EnemyController>();
@@ -67,6 +70,8 @@ public class EnemyBoundary : MonoBehaviour, ISpawnParent
         newChild.transform.position = m_collider.bounds.center;
         var childScript = newChild.gameObject.AddComponent<SpawnedChild>();
         childScript.parent = this;
+
+        newChild.gameObject.GetComponentIfExists<BuoyancyController>(c => c.WaterTransform = m_waterTransform);
 
         m_spawnedChildren.Add(newChild);
 

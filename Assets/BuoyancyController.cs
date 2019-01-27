@@ -4,6 +4,12 @@ using UnityEngine;
 public class BuoyancyController : MonoBehaviour
 {
 
+    public Transform WaterTransform
+    {
+        get { return m_waterTransform; }
+        set { m_waterTransform = value; }
+    }
+
     [SerializeField]
     private float m_bobSpeed = .1f;
 
