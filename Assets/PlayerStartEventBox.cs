@@ -2,7 +2,6 @@
 
 public class PlayerStartEventBox : EventBox
 {
-
     [SerializeField]
     private Transform m_playerTransform = null;
 
@@ -36,7 +35,7 @@ public class PlayerStartEventBox : EventBox
             return;
         }
 
-        Debug.Log(this.name + " Start");
+        Debug.Log(this.name + " Stop");
     }
 
 }

@@ -32,6 +32,7 @@ public class InteractiveObject : MonoBehaviour
 
     public void OnSelect()
     {
+        DeselectedMaterial = Renderer.material;
         Renderer.material = SelectedMaterial;
 
         Debug.Log($"{name} is selected!");
