@@ -49,6 +49,11 @@ public class EnemyController : MonoBehaviour
                 m_targetPosition = m_target.GetCombatPosition(this);
             }
 
+            if(m_targetPosition == null)
+            {
+                return;
+            }
+
             var distanceToTarget = Vector3.Distance(transform.position, m_targetPosition.position);
             var currentSpeed = m_moveSpeed;
             if(distanceToTarget <= m_slowRange)
