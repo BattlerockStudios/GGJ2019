@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        m_compassUI.CoverageAmount = m_players.Average(p => p.Morality);
+        m_compassUI.CoverageAmount = 1f - m_players.Average(p => p.Willingness);
     }
 
 }
