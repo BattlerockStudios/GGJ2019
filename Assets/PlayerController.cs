@@ -4,10 +4,15 @@ using UnityEngine;
 using System.Linq;
 using System;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IInteractionSource
 {
 
-    private const double AUTO_SORT_SECONDS = 2.0;
+    private const double AUTO_SORT_SECONDS = 0.3;
+
+    public float Morality
+    {
+        get { return m_morality; }
+    }
 
     [SerializeField]
     private float m_moveSpeed = 1f;
@@ -18,23 +23,28 @@ public class PlayerController : MonoBehaviour
     private Vector2 m_inputLastFrame = Vector2.zero;
     private readonly List<InteractiveObject> m_nearbyInteractiveObjects = new List<InteractiveObject>();
     private InteractiveObject m_selectedInteractive = null;
+    private InteractiveObject m_interactingInteractive = null;
     private DateTime? m_timeOfLastAutoSort = null;
+    private float m_morality = 0f;
 
     private void Update()
     {
-        var verticalMovement = Input.GetAxisRaw("Vertical");
-        var horizontalMovement = Input.GetAxisRaw("Horizontal");
-        m_inputLastFrame = new Vector2(horizontalMovement, verticalMovement);
-
-        if(!m_timeOfLastAutoSort.HasValue || (DateTime.UtcNow - m_timeOfLastAutoSort.Value).TotalSeconds > AUTO_SORT_SECONDS)
+        if (m_interactingInteractive == null)
         {
-            SortInteractivesByDistance();
-            m_timeOfLastAutoSort = DateTime.UtcNow;
-        }
+            var verticalMovement = Input.GetAxisRaw("Vertical");
+            var horizontalMovement = Input.GetAxisRaw("Horizontal");
+            m_inputLastFrame = new Vector2(horizontalMovement, verticalMovement);
 
-        if (Input.GetButtonDown("Submit"))
-        {
-            m_selectedInteractive?.Interact();
+            if (!m_timeOfLastAutoSort.HasValue || (DateTime.UtcNow - m_timeOfLastAutoSort.Value).TotalSeconds > AUTO_SORT_SECONDS)
+            {
+                SortInteractivesByDistance();
+                m_timeOfLastAutoSort = DateTime.UtcNow;
+            }
+
+            if (Input.GetButtonDown("Submit"))
+            {
+                m_selectedInteractive?.BeginInteraction(this);
+            }
         }
     }
 
@@ -105,4 +115,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnInteractionBegin(InteractiveObject interactive)
+    {
+        m_interactingInteractive = interactive;
+    }
+
+    public void OnInteractionEnd(InteractiveObject interactive)
+    {
+        if (m_interactingInteractive == interactive)
+        {
+            m_interactingInteractive = null;
+        }
+    }
 }

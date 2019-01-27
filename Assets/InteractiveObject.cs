@@ -3,18 +3,43 @@ using UnityEngine;
 
 public class InteractiveObject : MonoBehaviour
 {
-    public virtual void Interact()
+
+    public Material SelectedMaterial = null;
+    public Material DeselectedMaterial = null;
+    public Renderer Renderer = null;
+
+    protected IInteractionSource m_interactionSource = null;
+
+    public virtual void BeginInteraction(IInteractionSource interactionSource)
     {
-        // Override me
+        m_interactionSource = interactionSource;
+        m_interactionSource.OnInteractionBegin(this);
     }
 
     public void OnDeselect()
     {
-        Debug.Log($"{name} is selected!");
+        Renderer.material = DeselectedMaterial;
+
+        Debug.Log($"{name} is deselected!");
     }
 
     public void OnSelect()
     {
-        Debug.Log($"{name} is deselected!");
+        Renderer.material = SelectedMaterial;
+
+        Debug.Log($"{name} is selected!");
     }
+
+    public void ReleaseInteraction()
+    {
+        m_interactionSource?.OnInteractionEnd(this);
+        m_interactionSource = null;
+    }
+
+}
+
+public interface IInteractionSource
+{
+    void OnInteractionBegin(InteractiveObject interactive);
+    void OnInteractionEnd(InteractiveObject interactive);
 }
