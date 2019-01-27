@@ -4,14 +4,21 @@ using UnityEngine;
 public class IslandController : MonoBehaviour
 {
 
-    private void OnCollisionEnter(Collision collision)
+    public Transform EntryPoint
     {
-        Debug.Log(collision.transform.name);
-        if(collision.transform.tag == "Boat")
+        get { return m_entryPoint; }
+    }
+
+    [SerializeField]
+    private Transform m_entryPoint = null;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.transform.name);
+        if(other.transform.tag == "Boat")
         {
-            var boatControllers = collision.transform.GetComponentsInParent<BoatController>();
+            var boatControllers = other.transform.GetComponentsInParent<BoatController>();
             boatControllers[0].DockToIsland(this);
         }
     }
-
 }

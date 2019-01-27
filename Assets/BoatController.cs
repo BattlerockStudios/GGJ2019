@@ -116,6 +116,9 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
         }
     }
 
+    private PlayerController[] m_islandPlayers = new PlayerController[0];
+    private Vector3[] m_islandEnds = new Vector3[0];
+
     private IEnumerator AnimateDockToIsland(IslandController island)
     {
         var startTime = DateTime.UtcNow;
@@ -126,23 +129,20 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
             starts[i] = players[i].transform.position;
             players[i].transform.parent = null;
             players[i].SetPhysicsEnabled(false);
+            players[i].SetIsland(island, this);
+            players[i].AbortInteraction();
         }
 
-        var firstDirection = (new Vector3(island.transform.position.x, 0f, island.transform.position.z) - new Vector3(players[0].transform.position.x, 0f, players[0].transform.position.z)).normalized;
-        var ends = new Vector3[players.Length];
-        for (int i = 0; i < players.Length; i++)
-        {
-            ends[i] = players[i].transform.position + (firstDirection * 1f);
-        }
+        m_cameraManager.RegisterTarget("test", players[0].CameraParent);
 
         while (true)
         {
-            var progress = (DateTime.UtcNow - startTime).TotalSeconds / .125;
+            var progress = (DateTime.UtcNow - startTime).TotalSeconds / 2f;
             var parabolicProgress = -4f * Mathf.Pow((float)progress - .5f, 2) + 1;
 
             for (int i = 0; i < players.Length; i++)
             {
-                players[i].transform.position = Vector3.Lerp(starts[i], ends[i], (float)progress) + new Vector3(0f, parabolicProgress * 1f, 0f);
+                players[i].transform.position = Vector3.Lerp(starts[i], island.EntryPoint.position, (float)progress) + new Vector3(0f, parabolicProgress * 8f, 0f);
             }
 
             if (progress >= 1f)
@@ -157,6 +157,68 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
         {
             players[i].SetPhysicsEnabled(true);
         }
+
+        m_islandEnds = starts;
+        m_islandPlayers = players;
+    }
+
+    private IEnumerator AnimateFromIslandToBoat()
+    {
+        var startTime = DateTime.UtcNow;
+        var starts = new Vector3[m_islandPlayers.Length];
+        for (int i = 0; i < m_islandPlayers.Length; i++)
+        {
+            starts[i] = m_islandPlayers[i].transform.position;
+            m_islandPlayers[i].SetPhysicsEnabled(false);
+        }
+
+        m_cameraManager.DeregisterTarget("test");
+
+        while (true)
+        {
+            var progress = (DateTime.UtcNow - startTime).TotalSeconds / 2f;
+            var parabolicProgress = -4f * Mathf.Pow((float)progress - .5f, 2) + 1;
+
+            for (int i = 0; i < m_islandPlayers.Length; i++)
+            {
+                m_islandPlayers[i].transform.position = Vector3.Lerp(starts[i], m_islandEnds[i], (float)progress) + new Vector3(0f, parabolicProgress * 8f, 0f);
+            }
+
+            if (progress >= 1f)
+            {
+                break;
+            }
+
+            yield return null;
+        }
+
+        for (int i = 0; i < m_islandPlayers.Length; i++)
+        {
+            m_islandPlayers[i].transform.parent = transform;
+            m_islandPlayers[i].SetPhysicsEnabled(true);
+        }
+
+        startTime = DateTime.UtcNow;
+        var startRot = transform.rotation;
+        var end = Quaternion.Inverse(startRot);
+        while (true)
+        {
+            var progress = (DateTime.UtcNow - startTime).TotalSeconds / 1f;
+            transform.rotation = Quaternion.Slerp(startRot, end, (float)progress);
+            if (progress >= 1f)
+            {
+                break;
+            }
+
+            yield return null;
+        }
+
+        m_dockedIsland = null;
+    }
+
+    public void EndIsland(PlayerController playerController)
+    {
+        StartCoroutine(AnimateFromIslandToBoat());
     }
 
     private void Update()

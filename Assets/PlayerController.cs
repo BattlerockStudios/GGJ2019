@@ -15,6 +15,14 @@ public class PlayerController : MonoBehaviour, IInteractionSource
         set { m_willingness = value; }
     }
 
+    public Transform CameraParent
+    {
+        get { return m_cameraParent; }
+    }
+
+    [SerializeField]
+    private Transform m_cameraParent = null;
+
     [SerializeField]
     private float m_moveSpeed = 1f;
 
@@ -84,13 +92,38 @@ public class PlayerController : MonoBehaviour, IInteractionSource
             {
                 m_selectedInteractive?.BeginInteraction(this);
             }
+
+            if(m_islandController != null)
+            {
+                if(!Physics.Raycast(transform.position, Vector3.down, 10f) || Input.GetButtonDown("Cancel"))
+                {
+                    m_islandController = null;
+                    m_boatController.EndIsland(this);
+                    m_boatController = null;
+                }
+
+            }
         }
+    }
+
+    public void AbortInteraction()
+    {
+        m_interactingInteractive?.ReleaseInteraction();
     }
 
     private void FixedUpdate()
     {
         var forwardDirection = transform.TransformDirection(new Vector3(m_inputLastFrame.x, 0f, m_inputLastFrame.y));
         m_rigidBody.MovePosition(transform.position + (forwardDirection * m_moveSpeed * Time.deltaTime));
+    }
+
+    private IslandController m_islandController = null;
+    private BoatController m_boatController = null;
+
+    public void SetIsland(IslandController island, BoatController boatController)
+    {
+        m_islandController = island;
+        m_boatController = boatController;
     }
 
     public void SetPhysicsEnabled(bool enable)
