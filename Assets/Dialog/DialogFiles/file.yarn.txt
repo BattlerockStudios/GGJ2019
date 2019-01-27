@@ -3,7 +3,7 @@ tags:
 colorID: 0
 position: 543,261
 ---
-There is a lot to say but not a lot of time. This is hopefully going to be formatted all cool like because of unity. but we shall see.
+There is a lot to say but not a lot of time. This is hopefully going to be formatted all cool like because of unity. but we shall see. [[Test]]
 ===
 title: Test
 tags: 

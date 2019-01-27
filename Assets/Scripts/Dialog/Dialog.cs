@@ -8,12 +8,24 @@ public class Dialog : MonoBehaviour
     [Header("Optional")]
     public TextAsset scriptToLoad;
 
+    public bool playOnStart = false;
+
+    private void Start()
+    {
+        if(playOnStart == true)
+        {
+            PlayDialog();
+        }
+    }
+
     // Use this for initialization
-    void Start()
+    void PlayDialog()
     {
         if (scriptToLoad != null)
         {
-            FindObjectOfType<Yarn.Unity.DialogueRunner>().AddScript(scriptToLoad);
+            var dialogRunner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
+            dialogRunner.AddScript(scriptToLoad);
+            dialogRunner.StartDialogue(talkToNode);
         }
     }
 }
