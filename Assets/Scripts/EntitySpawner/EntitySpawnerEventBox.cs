@@ -4,7 +4,10 @@ public class EntitySpawnerEventBox : EventBox, ISpawnParent
 {
     [SerializeField]
     private EntitySpawnerData m_entitySpawner;
-        
+
+    [SerializeField]
+    private Transform m_waterTransform = null;
+
     private GameObject m_entity;
 
     public void OnChildDestroyed(SpawnedChild spawnedChild)
@@ -32,6 +35,8 @@ public class EntitySpawnerEventBox : EventBox, ISpawnParent
         m_entity = Instantiate(entitiesToSpawn[Random.Range(0, entitiesToSpawn.Length)], transform.position, Quaternion.identity);
         var spawnedChild = m_entity.AddComponent<SpawnedChild>();
         spawnedChild.parent = this;
+
+        m_entity.GetComponentIfExists<BuoyancyController>(b => b.WaterTransform = m_waterTransform);
 
         Debug.Log(this.name + " Start");
         enabled = false;
