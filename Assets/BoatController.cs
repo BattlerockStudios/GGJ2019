@@ -129,7 +129,6 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
             starts[i] = players[i].transform.position;
             players[i].transform.parent = null;
             players[i].SetPhysicsEnabled(false);
-            players[i].SetIsland(island, this);
             players[i].AbortInteraction();
         }
 
@@ -156,6 +155,7 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
         for (int i = 0; i < players.Length; i++)
         {
             players[i].SetPhysicsEnabled(true);
+            players[i].SetIsland(island, this);
         }
 
         m_islandEnds = starts;
