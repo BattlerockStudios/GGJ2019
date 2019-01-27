@@ -12,7 +12,7 @@ public class InteractiveSteeringWheel : InteractiveObject
     {
         base.BeginInteraction(interactionSource);
 
-        m_boat.PushWheelAngle();
+        m_boat.OnWheelInteractBegin(this);
     }
 
     protected override void InteractionUpdate(bool isBeingInteractedWith)
@@ -21,12 +21,8 @@ public class InteractiveSteeringWheel : InteractiveObject
 
         if (isBeingInteractedWith)
         {
-            var horizontalMovement = Input.GetAxisRaw("Horizontal");
-            m_boat.transform.Rotate(0f, horizontalMovement, 0f);
-
-            if (Input.GetButtonDown("Cancel"))
+            if(!m_boat.OnWheelInteractionUpdate(this))
             {
-                m_boat.PopWheelAngle();
                 ReleaseInteraction();
             }
         }

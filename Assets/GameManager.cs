@@ -10,9 +10,19 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private PlayerController[] m_players = null;
 
+    public void EndSession(LevelOutcome outcome)
+    {
+        //$$
+    }
+
     private void Update()
     {
         m_compassUI.CoverageAmount = 1f - m_players.Average(p => p.Willingness);
     }
 
+}
+
+public enum LevelOutcome
+{
+    BoatDestroyed
 }
