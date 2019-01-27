@@ -9,9 +9,9 @@ public class PlayerController : MonoBehaviour, IInteractionSource
 
     private const double AUTO_SORT_SECONDS = 0.3;
 
-    public float Morality
+    public float Willingness
     {
-        get { return m_morality; }
+        get { return m_willingness; }
     }
 
     [SerializeField]
@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour, IInteractionSource
     private InteractiveObject m_selectedInteractive = null;
     private InteractiveObject m_interactingInteractive = null;
     private DateTime? m_timeOfLastAutoSort = null;
-    private float m_morality = 0f;
+    private float m_willingness = 0f;
 
     private void Update()
     {
@@ -87,9 +87,11 @@ public class PlayerController : MonoBehaviour, IInteractionSource
 
         if(m_nearbyInteractiveObjects.Count > 0)
         {
-            if (m_nearbyInteractiveObjects[0] != m_selectedInteractive)
+            var availableInteractive = m_nearbyInteractiveObjects.FirstOrDefault(n => !n.IsBeingInteractedWith);
+
+            if (availableInteractive != m_selectedInteractive)
             {
-                SelectInteractive(m_nearbyInteractiveObjects[0]);
+                SelectInteractive(availableInteractive);
             }
         }
         else
