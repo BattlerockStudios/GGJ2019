@@ -4,9 +4,9 @@ using UnityEngine;
 using System.Linq;
 using System;
 
+[RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour, IInteractionSource
 {
-
     private const double AUTO_SORT_SECONDS = 0.3;
 
     public float Willingness
@@ -27,6 +27,13 @@ public class PlayerController : MonoBehaviour, IInteractionSource
     private DateTime? m_timeOfLastAutoSort = null;
     private float m_willingness = 0f;
 
+    private Animator m_animator = null;
+
+    private void Start()
+    {
+        m_animator = GetComponent<Animator>();
+    }
+
     private void Update()
     {
         if (m_interactingInteractive == null)
@@ -34,6 +41,8 @@ public class PlayerController : MonoBehaviour, IInteractionSource
             var verticalMovement = Input.GetAxisRaw("Vertical");
             var horizontalMovement = Input.GetAxisRaw("Horizontal");
             m_inputLastFrame = new Vector2(horizontalMovement, verticalMovement);
+
+            m_animator.SetFloat("MoveSpeed", m_inputLastFrame.magnitude);
 
             if (!m_timeOfLastAutoSort.HasValue || (DateTime.UtcNow - m_timeOfLastAutoSort.Value).TotalSeconds > AUTO_SORT_SECONDS)
             {
