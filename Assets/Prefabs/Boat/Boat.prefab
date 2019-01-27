@@ -9,8 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5268555610145143685}
-  - component: {fileID: 6490400552150419447}
-  - component: {fileID: 2007621520718129611}
   m_Layer: 0
   m_Name: BoatParent
   m_TagString: Boat
@@ -39,35 +37,6 @@ Transform:
   m_Father: {fileID: 3690729400912299762}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6490400552150419447
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 111051183142760160}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.99643, y: 1.2115126, z: 6.992858}
-  m_Center: {x: 0.01762557, y: 0.10575628, z: 2.5028996}
---- !u!54 &2007621520718129611
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 111051183142760160}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &150132717784615574
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,6 +433,8 @@ GameObject:
   - component: {fileID: 3690729400912299773}
   - component: {fileID: 5476013789185458553}
   - component: {fileID: 4291825100759171450}
+  - component: {fileID: 5774503211198693925}
+  - component: {fileID: 4680698759874617791}
   m_Layer: 0
   m_Name: Boat
   m_TagString: Untagged
@@ -511,6 +482,7 @@ MonoBehaviour:
   m_cameraManager: {fileID: 0}
   m_combatEntity: {fileID: 5476013789185458553}
   m_waterTransform: {fileID: 4770407159483400636}
+  m_rigidBody: {fileID: 0}
   m_wheel: {fileID: 3690729400754078977}
   m_defaultCameraPosition: {fileID: 3690729399793002008}
   m_drivingCameraPosition: {fileID: 3690729399605513717}
@@ -636,6 +608,35 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!54 &5774503211198693925
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3690729400912299763}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &4680698759874617791
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3690729400912299763}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.99643, y: 1.2115126, z: 6.992858}
+  m_Center: {x: 0.01762557, y: 0.10575628, z: 2.5028996}
 --- !u!1 &4827434443900052812
 GameObject:
   m_ObjectHideFlags: 0

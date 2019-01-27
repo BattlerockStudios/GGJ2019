@@ -93,6 +93,11 @@ public class PlayerController : MonoBehaviour, IInteractionSource
         m_rigidBody.MovePosition(transform.position + (forwardDirection * m_moveSpeed * Time.deltaTime));
     }
 
+    public void SetPhysicsEnabled(bool enable)
+    {
+        m_rigidBody.isKinematic = !enable;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         var foundInteractive = other.GetComponentInParent<InteractiveObject>();

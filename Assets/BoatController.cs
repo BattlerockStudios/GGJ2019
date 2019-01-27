@@ -12,6 +12,14 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
     [SerializeField]
     private CombatEntity m_combatEntity = null;
 
+    private IslandController m_dockedIsland = null;
+
+    public void DockToIsland(IslandController islandController)
+    {
+        m_dockedIsland = islandController;
+        StartCoroutine(AnimateDockToIsland(islandController));
+    }
+
     private SailSpeed m_currentSpeed = SailSpeed.Slow;
 
     public void ToggleSailSpeed()
@@ -38,7 +46,8 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
     [SerializeField]
     private Transform m_waterTransform = null;
 
-
+    [SerializeField]
+    private Rigidbody m_rigidBody = null;
 
     private float m_sway = 0f;
     private float m_currentSpeedFloat = 0f;
@@ -110,15 +119,68 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
         }
     }
 
+    private IEnumerator AnimateDockToIsland(IslandController island)
+    {
+        var startTime = DateTime.UtcNow;
+        var players = transform.GetComponentsInChildren<PlayerController>();
+        var starts = new Vector3[players.Length];
+        for (int i = 0; i < players.Length; i++)
+        {
+            starts[i] = players[i].transform.position;
+            players[i].transform.parent = null;
+            players[i].SetPhysicsEnabled(false);
+        }
+
+        var firstDirection = (new Vector3(island.transform.position.x, 0f, island.transform.position.z) - new Vector3(players[0].transform.position.x, 0f, players[0].transform.position.z)).normalized;
+        var ends = new Vector3[players.Length];
+        for (int i = 0; i < players.Length; i++)
+        {
+            ends[i] = players[i].transform.position + (firstDirection * 1f);
+        }
+
+        while (true)
+        {
+            var progress = (DateTime.UtcNow - startTime).TotalSeconds / .125;
+            var parabolicProgress = -4f * Mathf.Pow((float)progress - .5f, 2) + 1;
+
+            for (int i = 0; i < players.Length; i++)
+            {
+                players[i].transform.position = Vector3.Lerp(starts[i], ends[i], (float)progress) + new Vector3(0f, parabolicProgress * 1f, 0f);
+            }
+
+            if (progress >= 1f)
+            {
+                break;
+            }
+
+            yield return null;
+        }
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].SetPhysicsEnabled(true);
+        }
+    }
+
     private void Update()
     {
-        m_currentSpeedFloat = Mathf.Lerp(m_currentSpeedFloat, GetSailSpeed(), Time.deltaTime * 3f);
-        transform.Translate(Vector3.forward * m_currentSpeedFloat * Time.deltaTime, Space.Self);
-        m_visualParent.transform.localRotation = Quaternion.Euler(0f, 0f, -m_sway);
-
-        if (!m_wheel.IsBeingInteractedWith)
+        if (m_dockedIsland == null)
         {
-            ReduceSway();
+            m_visualParent.transform.localRotation = Quaternion.Euler(0f, 0f, -m_sway);
+
+            if (!m_wheel.IsBeingInteractedWith)
+            {
+                ReduceSway();
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (m_dockedIsland == null)
+        {
+            m_currentSpeedFloat = Mathf.Lerp(m_currentSpeedFloat, GetSailSpeed(), Time.deltaTime * 3f);
+            m_rigidBody.MovePosition(transform.position + (Vector3.forward * m_currentSpeedFloat * Time.deltaTime));
         }
     }
 
