@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 
-public class EntitySpawnerEventBox : EventBox
+public class EntitySpawnerEventBox : EventBox, ISpawnParent
 {
     [SerializeField]
     private EntitySpawnerData m_entitySpawner;
         
     private GameObject m_entity;
+
+    public void OnChildDestroyed(SpawnedChild spawnedChild)
+    {
+        // Do nothing
+    }
 
     public override void StartEvent()
     {
@@ -26,7 +31,7 @@ public class EntitySpawnerEventBox : EventBox
         var entitiesToSpawn = m_entitySpawner.entitiesToSpawn;
         m_entity = Instantiate(entitiesToSpawn[Random.Range(0, entitiesToSpawn.Length)], transform.position, Quaternion.identity);
         var spawnedChild = m_entity.AddComponent<SpawnedChild>();
-        spawnedChild.parent = transform;
+        spawnedChild.parent = this;
 
         Debug.Log(this.name + " Start");
         enabled = false;

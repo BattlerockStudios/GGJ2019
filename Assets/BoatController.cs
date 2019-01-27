@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoatController : MonoBehaviour
+public class BoatController : MonoBehaviour, ICombatEntityEventListener
 {
 
     [SerializeField]
     private CameraManager m_cameraManager = null;
+
+    [SerializeField]
+    private CombatEntity m_combatEntity = null;
 
     private SailSpeed m_currentSpeed = SailSpeed.Slow;
 
@@ -30,18 +33,12 @@ public class BoatController : MonoBehaviour
         Fast
     }
 
-    private const int MAX_HEALTH = 100;
 
-    public bool IsDamaged
-    {
-        get { return m_health < MAX_HEALTH; }
-    }
 
     [SerializeField]
     private Transform m_waterTransform = null;
 
-    [SerializeField]
-    private int m_health = MAX_HEALTH;
+
 
     private float m_sway = 0f;
     private float m_currentSpeedFloat = 0f;
@@ -63,19 +60,7 @@ public class BoatController : MonoBehaviour
         m_cameraManager.RegisterTarget("Wheel", m_drivingCameraPosition);
     }
 
-    public void ChangeHealth(int damage)
-    {
-        m_health -= damage;
-        if(m_health <= 0)
-        {
-            m_gameManager.EndSession(LevelOutcome.BoatDestroyed);
-        }
 
-        var percent = Mathf.Clamp(m_health / (float)MAX_HEALTH, 0f, MAX_HEALTH);
-        var currentPosition = m_waterTransform.localPosition;
-        currentPosition.y = Mathf.Lerp(.75f, .93f, 1f - percent);
-        m_waterTransform.localPosition = currentPosition;
-    }
 
     public bool OnWheelInteractionUpdate(InteractiveSteeringWheel interactiveSteeringWheel)
     {
@@ -105,10 +90,12 @@ public class BoatController : MonoBehaviour
     private void Start()
     {
         m_cameraManager.RegisterTarget("Boat", m_defaultCameraPosition);
+        m_combatEntity.RegisterEventListener(this);
     }
 
     private void OnDestroy()
     {
+        m_combatEntity.DeregisterEventListener(this);
         m_cameraManager.DeregisterTarget("Boat");
     }
 
@@ -140,4 +127,16 @@ public class BoatController : MonoBehaviour
         m_sway = Mathf.Lerp(m_sway, 0f, Time.deltaTime * 3f);
     }
 
+    void ICombatEntityEventListener.HealthChanged(CombatEntity sender, int newHealth, int oldHealth)
+    {
+        if (newHealth <= 0)
+        {
+            m_gameManager.EndSession(LevelOutcome.BoatDestroyed);
+        }
+
+        var percent = Mathf.Clamp(newHealth / (float)sender.MaxHealth, 0f, sender.MaxHealth);
+        var currentPosition = m_waterTransform.localPosition;
+        currentPosition.y = Mathf.Lerp(.75f, .93f, 1f - percent);
+        m_waterTransform.localPosition = currentPosition;
+    }
 }

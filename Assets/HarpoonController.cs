@@ -131,13 +131,19 @@ public class HarpoonController : InteractiveObject
             yield return null;
         }
 
+        var hitEntity = default(CombatEntity);
         if(hitObject != null)
         {
-            // $$ play sounds
-            hitObject.SetParent(m_harpoon, true);
+            hitEntity = hitObject.GetComponentInParent<CombatEntity>();
 
-            hitObject.GetComponentIfExists<BuoyancyController>(b => b.enabled = false);
-            hitObject.GetComponentIfExists<Rigidbody>(r => r.isKinematic = true);
+            if (hitEntity == null)
+            {
+                // $$ play sounds
+                hitObject.SetParent(m_harpoon, true);
+
+                hitObject.GetComponentIfExists<BuoyancyController>(b => b.enabled = false);
+                hitObject.GetComponentIfExists<Rigidbody>(r => r.isKinematic = true);
+            }
         }
 
         startTime = DateTime.UtcNow;
@@ -157,10 +163,17 @@ public class HarpoonController : InteractiveObject
             yield return null;
         }
 
-        if(hitObject != null)
+        if(hitEntity == null)
         {
-            // $$ get result of item
-            Destroy(hitObject.gameObject);
+            if (hitObject != null)
+            {
+                // $$ get result of item
+                Destroy(hitObject.gameObject);
+            }
+        }
+        else
+        {
+            hitEntity.ChangeHealth(20);
         }
 
         m_harpoon.gameObject.SetActive(false);

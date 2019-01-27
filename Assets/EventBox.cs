@@ -7,12 +7,18 @@ public abstract class EventBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        StartEvent();   
+        if (other.transform.tag == "Boat")
+        {
+            StartEvent();
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        StopEvent();
+        if (other.transform.tag == "Boat")
+        {
+            StopEvent();
+        }
     }
 
 }

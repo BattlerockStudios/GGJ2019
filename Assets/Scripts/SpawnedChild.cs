@@ -2,5 +2,10 @@
 
 public class SpawnedChild : MonoBehaviour
 {
-    public Transform parent;
+    public ISpawnParent parent;
+
+    private void OnDestroy()
+    {
+        parent.OnChildDestroyed(this);
+    }
 }

@@ -8,6 +8,11 @@ public class PlayerStartEventBox : EventBox
 
     public override void StartEvent()
     {
+        if(!enabled)
+        {
+            return;
+        }
+
         m_playerTransform.position = new Vector3(transform.position.x, 0f, transform.position.z);
         m_playerTransform.rotation = transform.rotation;
 
@@ -18,6 +23,11 @@ public class PlayerStartEventBox : EventBox
 
     public override void StopEvent()
     {
+        if(!enabled)
+        {
+            return;
+        }
+
         Debug.Log(this.name + " Start");
     }
 

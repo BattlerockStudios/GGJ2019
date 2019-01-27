@@ -5,7 +5,7 @@ public class WaterBucket : InteractiveObject
 {
 
     [SerializeField]
-    private BoatController m_boatController = null;
+    private CombatEntity m_boatController = null;
 
     public override void BeginInteraction(IInteractionSource interactionSource)
     {
@@ -25,10 +25,10 @@ public class WaterBucket : InteractiveObject
         {
             if (Input.GetButtonDown("Submit"))
             {
-                m_boatController.ChangeHealth(-1);
+                m_boatController.ChangeHealth(-5);
             }
 
-            if(!m_boatController.IsDamaged)
+            if (Input.GetButtonDown("Cancel") || !m_boatController.IsDamaged)
             {
                 ReleaseInteraction();
             }
