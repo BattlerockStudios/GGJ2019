@@ -17,11 +17,8 @@ public class EventManager : MonoBehaviour
         var childEvents = GetComponentsInChildren<EventBox>();
         RandomizeBoard(childEvents);
 
-        var startTile = childEvents.Where(e => e is PlayerStartEventBox).FirstOrDefault();
-        startTile.StartEvent();
-
-        var entitySpawnTile = childEvents.Where(e => e is EntitySpawnerEventBox).FirstOrDefault();
-        entitySpawnTile.StartEvent();
+        childEvents.Where(e => e is PlayerStartEventBox).FirstOrDefault().StartEvent();
+        childEvents.Where(e => e is EntitySpawnerEventBox).FirstOrDefault()?.StartEvent();
     }
 
     private void RandomizeBoard(EventBox[] childEvents)

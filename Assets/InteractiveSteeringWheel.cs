@@ -8,6 +8,13 @@ public class InteractiveSteeringWheel : InteractiveObject
     [SerializeField]
     private BoatController m_boat = null;
 
+    public override void BeginInteraction(IInteractionSource interactionSource)
+    {
+        base.BeginInteraction(interactionSource);
+
+        m_boat.PushWheelAngle();
+    }
+
     protected override void InteractionUpdate(bool isBeingInteractedWith)
     {
         base.InteractionUpdate(isBeingInteractedWith);
@@ -19,6 +26,7 @@ public class InteractiveSteeringWheel : InteractiveObject
 
             if (Input.GetButtonDown("Cancel"))
             {
+                m_boat.PopWheelAngle();
                 ReleaseInteraction();
             }
         }
