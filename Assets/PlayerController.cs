@@ -9,6 +9,11 @@ public class PlayerController : MonoBehaviour, IInteractionSource
 
     private const double AUTO_SORT_SECONDS = 0.3;
 
+    public float Morality
+    {
+        get { return m_morality; }
+    }
+
     [SerializeField]
     private float m_moveSpeed = 1f;
 
@@ -20,6 +25,7 @@ public class PlayerController : MonoBehaviour, IInteractionSource
     private InteractiveObject m_selectedInteractive = null;
     private InteractiveObject m_interactingInteractive = null;
     private DateTime? m_timeOfLastAutoSort = null;
+    private float m_morality = 0f;
 
     private void Update()
     {
