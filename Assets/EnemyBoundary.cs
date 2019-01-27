@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public interface ISpawnParent
@@ -20,6 +21,11 @@ public class EnemyBoundary : MonoBehaviour, ISpawnParent
 
     [SerializeField]
     private Collider m_collider = null;
+
+    [SerializeField]
+    private Transform m_waterTransform = null;
+
+    private DateTime? m_timeOfLastSpawn = null;
 
     private CombatEntity m_boatController = null;
 
@@ -55,9 +61,12 @@ public class EnemyBoundary : MonoBehaviour, ISpawnParent
 
     private void Update()
     {
-        if (m_repopulate && m_spawnedChildren.Count < m_numberToSpawn)
+        if (!m_timeOfLastSpawn.HasValue || (DateTime.UtcNow - m_timeOfLastSpawn.Value).TotalSeconds > 20)
         {
-            SpawnChild();
+            if (m_repopulate && m_spawnedChildren.Count < m_numberToSpawn)
+            {
+                SpawnChild();
+            }
         }
     }
 
@@ -68,9 +77,13 @@ public class EnemyBoundary : MonoBehaviour, ISpawnParent
         var childScript = newChild.gameObject.AddComponent<SpawnedChild>();
         childScript.parent = this;
 
+        newChild.gameObject.GetComponentIfExists<BuoyancyController>(c => c.WaterTransform = m_waterTransform);
+
         m_spawnedChildren.Add(newChild);
 
         newChild.SetTarget(m_boatController);
+
+        m_timeOfLastSpawn = DateTime.UtcNow;
     }
 
     private void OnTriggerEnter(Collider other)

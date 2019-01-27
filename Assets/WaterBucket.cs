@@ -11,28 +11,17 @@ public class WaterBucket : InteractiveObject
     {
         base.BeginInteraction(interactionSource);
 
-        if(!m_boatController.IsDamaged)
+        if(m_boatController.IsDamaged)
         {
-            ReleaseInteraction();
+            m_boatController.ChangeHealth(-5);
         }
+
+        ReleaseInteraction();
     }
 
     protected override void InteractionUpdate(bool isBeingInteractedWith)
     {
         base.InteractionUpdate(isBeingInteractedWith);
-
-        if (isBeingInteractedWith)
-        {
-            if (Input.GetButtonDown("Submit"))
-            {
-                m_boatController.ChangeHealth(-5);
-            }
-
-            if (Input.GetButtonDown("Cancel") || !m_boatController.IsDamaged)
-            {
-                ReleaseInteraction();
-            }
-        }
     }
 
 }

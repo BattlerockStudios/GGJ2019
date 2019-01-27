@@ -24,6 +24,8 @@ public class EnemyController : MonoBehaviour
 
     private Coroutine m_attackRoutine = null;
 
+
+
     private double m_timeTillNextAttack = 0;
 
     private void Start()
@@ -47,6 +49,11 @@ public class EnemyController : MonoBehaviour
             if (m_targetPosition == null)
             {
                 m_targetPosition = m_target.GetCombatPosition(this);
+            }
+
+            if(m_targetPosition == null)
+            {
+                return;
             }
 
             var distanceToTarget = Vector3.Distance(transform.position, m_targetPosition.position);

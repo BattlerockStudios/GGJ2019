@@ -8,6 +8,12 @@ TextureImporter:
     21300006: New Project (2)_3
     21300008: New Project (2)_4
     21300010: New Project (2)_5
+    21300012: BarrelDude_0
+    21300014: BarrelDude_1
+    21300016: BarrelDude_2
+    21300018: BarrelDude_3
+    21300020: BarrelDude_4
+    21300022: BarrelDude_5
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -90,121 +96,121 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: New Project (2)_0
+      name: BarrelDude_0
       rect:
         serializedVersion: 2
         x: 316
         y: 664
         width: 48
         height: 40
-      alignment: 9
-      pivot: {x: 0.41794905, y: 0.50154114}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d125c25bd93c80242bdccd4d00d180f0
+      spriteID: 45f16c6e68588814184bdab130516cc6
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: New Project (2)_1
+      name: BarrelDude_1
       rect:
         serializedVersion: 2
         x: 460
         y: 623
         width: 87
         height: 139
-      alignment: 9
-      pivot: {x: 0.51060015, y: 1.113388}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7047be4834a2e0b4295fa672801969fa
+      spriteID: ae9e0eb987724b44292837127eadc75c
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: New Project (2)_2
+      name: BarrelDude_2
       rect:
         serializedVersion: 2
         x: 632
-        y: 657
+        y: 658
         width: 32
         height: 86
-      alignment: 9
-      pivot: {x: 0.2686844, y: 0.866448}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 30b494e4840dfa549904ae11aeb72826
+      spriteID: 138255fc40436ac478e6eb37da6c7df5
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: New Project (2)_3
+      name: BarrelDude_3
       rect:
         serializedVersion: 2
         x: 280
         y: 449
         width: 128
         height: 151
-      alignment: 9
-      pivot: {x: 0.6828997, y: 0.30367598}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7385b7524de0d55408ee0c3a78200005
+      spriteID: 661e84cbc7e33c844abf215c4bc8dfe5
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: New Project (2)_4
+      name: BarrelDude_4
       rect:
         serializedVersion: 2
         x: 468
         y: 455
         width: 87
         height: 115
-      alignment: 9
-      pivot: {x: 0.3788319, y: 0.037382443}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5495a0f0dc3b34d42b59e9fe8cdade42
+      spriteID: 25300f7cface08a4488a7a3b50521398
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: New Project (2)_5
+      name: BarrelDude_5
       rect:
         serializedVersion: 2
         x: 635
         y: 512
         width: 46
         height: 48
-      alignment: 9
-      pivot: {x: 0.37382042, y: 0.71648663}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dffa40230fa57e34d9ef4ff8fe605187
+      spriteID: 7964f07b7bec9d74f9eb2ba5b9cf2b18
       vertices: []
       indices: 
       edges: []
@@ -217,7 +223,7 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-  spritePackingTag: 
+  spritePackingTag: people
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
