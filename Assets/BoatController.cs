@@ -46,9 +46,6 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
     [SerializeField]
     private Transform m_waterTransform = null;
 
-    [SerializeField]
-    private Rigidbody m_rigidBody = null;
-
     private float m_sway = 0f;
     private float m_currentSpeedFloat = 0f;
 
@@ -166,21 +163,15 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
     {
         if (m_dockedIsland == null)
         {
+            m_currentSpeedFloat = Mathf.Lerp(m_currentSpeedFloat, GetSailSpeed(), Time.deltaTime * 3f);
+            transform.Translate(Vector3.forward * m_currentSpeedFloat * Time.deltaTime, Space.Self);
+
             m_visualParent.transform.localRotation = Quaternion.Euler(0f, 0f, -m_sway);
 
             if (!m_wheel.IsBeingInteractedWith)
             {
                 ReduceSway();
             }
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (m_dockedIsland == null)
-        {
-            m_currentSpeedFloat = Mathf.Lerp(m_currentSpeedFloat, GetSailSpeed(), Time.deltaTime * 3f);
-            m_rigidBody.MovePosition(transform.position + (Vector3.forward * m_currentSpeedFloat * Time.deltaTime));
         }
     }
 
