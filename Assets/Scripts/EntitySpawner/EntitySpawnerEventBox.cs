@@ -10,6 +10,19 @@ public class EntitySpawnerEventBox : EventBox
     public override void StartEvent()
     {
         // Randomly chooses from a predetermined list (chosen by a designer...so don't fuck it up )
+
+        if(m_entitySpawner == null)
+        {
+            Debug.LogErrorFormat("{0}: m_entitySpawner not assigned.", name);
+            return;
+        }
+
+        if(m_entitySpawner.entitiesToSpawn.Length <= 0)
+        {
+            Debug.LogErrorFormat("{0}: No entities in the array entitiesToSpawn in m_entitySpawner. Exiting out of StartEvent()", name);
+            return;
+        }
+
         var entitiesToSpawn = m_entitySpawner.entitiesToSpawn;
         m_entity = Instantiate(entitiesToSpawn[Random.Range(0, entitiesToSpawn.Length)], transform.position, Quaternion.identity);
         var spawnedChild = m_entity.AddComponent<SpawnedChild>();
