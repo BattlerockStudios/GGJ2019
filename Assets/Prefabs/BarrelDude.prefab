@@ -1077,6 +1077,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7366985158257616898}
   - component: {fileID: 7924802802983656897}
+  - component: {fileID: 1044547887437749494}
+  - component: {fileID: 2951265901119057739}
   m_Layer: 0
   m_Name: BarrelDude
   m_TagString: Untagged
@@ -1119,6 +1121,36 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1044547887437749494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4580079754535004080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e10084bb3444fbc488984711134ed95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
+  objectStates:
+  - {fileID: 5920639080606306129}
+  - {fileID: 2610949338223018151}
+  - {fileID: 4947969561913777781}
+--- !u!135 &2951265901119057739
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4580079754535004080}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 8
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4947969561913777781
 GameObject:
   m_ObjectHideFlags: 0
