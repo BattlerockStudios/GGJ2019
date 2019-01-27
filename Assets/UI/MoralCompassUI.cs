@@ -18,6 +18,9 @@ public class MoralCompassUI : MonoBehaviour
     private Image m_rightHalf = null;
 
     [SerializeField]
+    private Transform m_directionTransform = null;
+
+    [SerializeField]
     private Transform m_coverTransform = null;
 
     [Range(0f, 1f)]
@@ -51,8 +54,11 @@ public class MoralCompassUI : MonoBehaviour
         var directionToOrigin = (m_originTransform.position - m_cameraTransform.position).normalized;
         m_angle = -Vector3.SignedAngle(rotationTowardsCamera, directionToOrigin, Vector3.up);
 
-        transform.rotation = Quaternion.Euler(0f, 0f, m_angle);
+        transform.rotation = Quaternion.Euler(0f, 0f, m_angle + 180f);
         m_coverTransform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Sin(Time.time * m_wobbleSpeed) * m_wobbleAmount);
+
+        var ang = -Vector3.SignedAngle(rotationTowardsCamera, Vector3.forward, Vector3.up);
+        m_directionTransform.rotation = Quaternion.Euler(0f, 0f, ang);
     }
 
 }

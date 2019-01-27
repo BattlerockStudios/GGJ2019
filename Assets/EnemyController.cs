@@ -24,6 +24,8 @@ public class EnemyController : MonoBehaviour
 
     private Coroutine m_attackRoutine = null;
 
+
+
     private double m_timeTillNextAttack = 0;
 
     private void Start()

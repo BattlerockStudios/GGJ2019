@@ -299,7 +299,18 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8690509887986567018, guid: 02f18b2004ef2db4d9c41ad07071541c, type: 3}
+    - {fileID: 1345828371869011636, guid: 02f18b2004ef2db4d9c41ad07071541c, type: 3}
+    - {fileID: 6430372321536505522, guid: 02f18b2004ef2db4d9c41ad07071541c, type: 3}
+    - {fileID: 4986512616272584955, guid: 02f18b2004ef2db4d9c41ad07071541c, type: 3}
+    - {fileID: 3040211626018577929, guid: 02f18b2004ef2db4d9c41ad07071541c, type: 3}
+    - {fileID: 6232656527625553529, guid: 02f18b2004ef2db4d9c41ad07071541c, type: 3}
+    - {fileID: 5375288063371075308, guid: 02f18b2004ef2db4d9c41ad07071541c, type: 3}
+    - {fileID: 2688329048410670782, guid: 02f18b2004ef2db4d9c41ad07071541c, type: 3}
+    - {fileID: 1767717769690450615, guid: 02f18b2004ef2db4d9c41ad07071541c, type: 3}
+    - {fileID: 1974298953722352551, guid: 02f18b2004ef2db4d9c41ad07071541c, type: 3}
+    - {fileID: 5112398797278359031, guid: 02f18b2004ef2db4d9c41ad07071541c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 02f18b2004ef2db4d9c41ad07071541c, type: 3}
 --- !u!4 &6951413124211943891 stripped
 Transform:

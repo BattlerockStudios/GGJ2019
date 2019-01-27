@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour, IInteractionSource
     public float Willingness
     {
         get { return m_willingness; }
+        set { m_willingness = value; }
     }
 
     [SerializeField]
