@@ -1200,7 +1200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cac9fab480be14efa9c440077538eb73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_moveSpeed: 2
+  m_moveSpeed: 5
   m_rotationSpeed: 5
   m_rigidBody: {fileID: 6601973351928340528}
   m_childTransformToFlip: {fileID: 6851006737572790378}
