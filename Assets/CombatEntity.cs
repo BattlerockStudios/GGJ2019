@@ -81,6 +81,13 @@ public class CombatEntity : MonoBehaviour
 
     private Coroutine m_damageRoutine = null;
 
+    private Color m_startingColor;
+
+    private void Start()
+    {
+        m_startingColor = m_renderer.material.color;
+    }
+
     private IEnumerator FlashColor(bool isHeal)
     {
         var startTime = DateTime.UtcNow;
@@ -88,7 +95,7 @@ public class CombatEntity : MonoBehaviour
         {
             var progress = (DateTime.UtcNow - startTime).TotalSeconds / .125;
             var parabolicProgress = -4f * Mathf.Pow((float)progress - .5f, 2) + 1;
-            m_renderer.material.color = Color.Lerp(Color.white, isHeal ? Color.green : Color.red, parabolicProgress);
+            m_renderer.material.color = Color.Lerp(m_startingColor, isHeal ? Color.green : Color.red, parabolicProgress);
             if (progress >= 1f)
             {
                 break;
