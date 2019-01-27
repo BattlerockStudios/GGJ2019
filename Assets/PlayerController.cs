@@ -29,8 +29,6 @@ public class PlayerController : MonoBehaviour, IInteractionSource
     private InteractiveObject m_selectedInteractive = null;
     private InteractiveObject m_interactingInteractive = null;
     private DateTime? m_timeOfLastAutoSort = null;
-
-    [SerializeField]
     private float m_willingness = 0f;
 
     private Animator m_animator = null;
@@ -51,17 +49,17 @@ public class PlayerController : MonoBehaviour, IInteractionSource
 
         if (inputDirection == 0)
         {
-            direction = new Vector3(m_childTransformToFlip.rotation.eulerAngles.x, m_rotationDegrees, m_childTransformToFlip.rotation.eulerAngles.z);
+            direction = new Vector3(m_childTransformToFlip.localRotation.eulerAngles.x, m_rotationDegrees, m_childTransformToFlip.localRotation.eulerAngles.z);
             targetRotation = Quaternion.Euler(direction);
-            this.m_childTransformToFlip.rotation = Quaternion.Lerp(m_childTransformToFlip.rotation, targetRotation, Time.deltaTime * m_rotationSpeed);
+            this.m_childTransformToFlip.localRotation = Quaternion.Lerp(m_childTransformToFlip.localRotation, targetRotation, Time.deltaTime * m_rotationSpeed);
             return;
         }
 
         m_rotationDegrees = inputDirection > 0 ? 180.0f : 0.0f;
 
-        direction = new Vector3(m_childTransformToFlip.rotation.eulerAngles.x, m_rotationDegrees, m_childTransformToFlip.rotation.eulerAngles.z);
+        direction = new Vector3(m_childTransformToFlip.localRotation.eulerAngles.x, m_rotationDegrees, m_childTransformToFlip.localRotation.eulerAngles.z);
         targetRotation = Quaternion.Euler(direction);
-        this.m_childTransformToFlip.rotation = Quaternion.Lerp(m_childTransformToFlip.rotation, targetRotation, Time.deltaTime * m_rotationSpeed);
+        this.m_childTransformToFlip.localRotation = Quaternion.Lerp(m_childTransformToFlip.localRotation, targetRotation, Time.deltaTime * m_rotationSpeed);
     }
 
     private void Update()
