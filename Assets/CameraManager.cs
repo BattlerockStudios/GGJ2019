@@ -15,8 +15,8 @@ public class CameraManager : MonoBehaviour
         var lastItem = m_registeredTargets.LastOrDefault();
         if(lastItem.Value != null)
         {
-            transform.position = Vector3.Lerp(transform.position, lastItem.Value.position, Time.deltaTime * 5f);
-            transform.rotation = Quaternion.Lerp(transform.rotation, lastItem.Value.rotation, Time.deltaTime * 5f);
+            transform.position = Vector3.Lerp(transform.position, lastItem.Value.position, Time.deltaTime * 10f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, lastItem.Value.rotation, Time.deltaTime * 10f);
         }
     }
 

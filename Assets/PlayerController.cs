@@ -120,12 +120,14 @@ public class PlayerController : MonoBehaviour, IInteractionSource
     public void OnInteractionBegin(InteractiveObject interactive)
     {
         m_interactingInteractive = interactive;
+        m_rigidBody.isKinematic = true;
     }
 
     public void OnInteractionEnd(InteractiveObject interactive)
     {
         if (m_interactingInteractive == interactive)
         {
+            m_rigidBody.isKinematic = false;
             m_interactingInteractive = null;
         }
     }
