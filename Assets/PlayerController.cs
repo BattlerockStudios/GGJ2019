@@ -1,8 +1,7 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
-using System;
+using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 public class PlayerController : MonoBehaviour, IInteractionSource
@@ -76,136 +75,162 @@ public class PlayerController : MonoBehaviour, IInteractionSource
         {
             var verticalMovement = Input.GetAxisRaw("Vertical");
             var horizontalMovement = Input.GetAxisRaw("Horizontal");
-            m_inputLastFrame = new Vector2(horizontalMovement, verticalMovement);
 
-            m_animator.SetFloat("MoveSpeed", m_inputLastFrame.magnitude);
-
-            FlipCharacter(horizontalMovement);
-
-            if (!m_timeOfLastAutoSort.HasValue || (DateTime.UtcNow - m_timeOfLastAutoSort.Value).TotalSeconds > AUTO_SORT_SECONDS)
+#if UNITY_ANDROID
+            if (Input.touchCount > 0)
             {
-                SortInteractivesByDistance();
-                m_timeOfLastAutoSort = DateTime.UtcNow;
-            }
-
-            if (Input.GetButtonDown("Submit"))
-            {
-                m_selectedInteractive?.BeginInteraction(this);
-            }
-
-            if(m_islandController != null)
-            {
-                if(!Physics.Raycast(transform.position, Vector3.down, 10f) || Input.GetButtonDown("Cancel"))
+                var touch = Input.GetTouch(0);
+                if (touch.position.x < Screen.width / 2)
                 {
-                    m_islandController = null;
-                    m_boatController.EndIsland(this);
-                    m_boatController = null;
+                    horizontalMovement = -1f;
+                }
+                else
+                {
+                    horizontalMovement = 1f;
                 }
 
-            }
-        }
-    }
+                if(touch.position.y < Screen.height / 2)
+                {
+                    verticalMovement = -1f;
+                }
+                else
+                {
+                    verticalMovement = 1f;
+                }
+            }        
+#endif
 
-    public void AbortInteraction()
-    {
-        m_interactingInteractive?.ReleaseInteraction();
-    }
 
-    private void FixedUpdate()
-    {
-        var forwardDirection = transform.TransformDirection(new Vector3(m_inputLastFrame.x, 0f, m_inputLastFrame.y));
-        m_rigidBody.MovePosition(transform.position + (forwardDirection * m_moveSpeed * Time.deltaTime));
-    }
+        m_inputLastFrame = new Vector2(horizontalMovement, verticalMovement);
 
-    private IslandController m_islandController = null;
-    private BoatController m_boatController = null;
+        m_animator.SetFloat("MoveSpeed", m_inputLastFrame.magnitude);
 
-    public void SetIsland(IslandController island, BoatController boatController)
-    {
-        m_islandController = island;
-        m_boatController = boatController;
-    }
+        FlipCharacter(horizontalMovement);
 
-    public void SetPhysicsEnabled(bool enable)
-    {
-        m_rigidBody.isKinematic = !enable;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        var foundInteractive = other.GetComponentInParent<InteractiveObject>();
-        if(foundInteractive != null)
+        if (!m_timeOfLastAutoSort.HasValue || (DateTime.UtcNow - m_timeOfLastAutoSort.Value).TotalSeconds > AUTO_SORT_SECONDS)
         {
-            m_nearbyInteractiveObjects.Add(foundInteractive);
             SortInteractivesByDistance();
+            m_timeOfLastAutoSort = DateTime.UtcNow;
         }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        var foundInteractive = other.GetComponentInParent<InteractiveObject>();
-        if (foundInteractive != null)
+        if (Input.GetButtonDown("Submit"))
         {
-            m_nearbyInteractiveObjects.Remove(foundInteractive);
-            SortInteractivesByDistance();
+            m_selectedInteractive?.BeginInteraction(this);
         }
-    }
 
-    private void SortInteractivesByDistance()
-    {
-        m_nearbyInteractiveObjects.Sort(
-            (a,b)=> 
+        if (m_islandController != null)
+        {
+            if (!Physics.Raycast(transform.position, Vector3.down, 10f) || Input.GetButtonDown("Cancel"))
             {
-                var firstDistance = Vector3.Distance(a.transform.position, transform.position);
-                var secondDistance = Vector3.Distance(b.transform.position, transform.position);
-                return firstDistance.CompareTo(secondDistance);
+                m_islandController = null;
+                m_boatController.EndIsland(this);
+                m_boatController = null;
             }
-        );
 
-        if(m_nearbyInteractiveObjects.Count > 0)
-        {
-            var availableInteractive = m_nearbyInteractiveObjects.FirstOrDefault(n => !n.IsBeingInteractedWith);
-
-            if (availableInteractive != m_selectedInteractive)
-            {
-                SelectInteractive(availableInteractive);
-            }
-        }
-        else
-        {
-            SelectInteractive(null);
         }
     }
+}
 
-    private void SelectInteractive(InteractiveObject selection)
+public void AbortInteraction()
+{
+    m_interactingInteractive?.ReleaseInteraction();
+}
+
+private void FixedUpdate()
+{
+    var forwardDirection = transform.TransformDirection(new Vector3(m_inputLastFrame.x, 0f, m_inputLastFrame.y));
+    m_rigidBody.MovePosition(transform.position + (forwardDirection * m_moveSpeed * Time.deltaTime));
+}
+
+private IslandController m_islandController = null;
+private BoatController m_boatController = null;
+
+public void SetIsland(IslandController island, BoatController boatController)
+{
+    m_islandController = island;
+    m_boatController = boatController;
+}
+
+public void SetPhysicsEnabled(bool enable)
+{
+    m_rigidBody.isKinematic = !enable;
+}
+
+private void OnTriggerEnter(Collider other)
+{
+    var foundInteractive = other.GetComponentInParent<InteractiveObject>();
+    if (foundInteractive != null)
     {
-        m_selectedInteractive?.OnDeselect();
-
-        m_selectedInteractive = selection;
-
-        m_selectedInteractive?.OnSelect();
+        m_nearbyInteractiveObjects.Add(foundInteractive);
+        SortInteractivesByDistance();
     }
+}
 
-    public void RenderEditorGUI()
+private void OnTriggerExit(Collider other)
+{
+    var foundInteractive = other.GetComponentInParent<InteractiveObject>();
+    if (foundInteractive != null)
     {
-        foreach (var item in m_nearbyInteractiveObjects)
+        m_nearbyInteractiveObjects.Remove(foundInteractive);
+        SortInteractivesByDistance();
+    }
+}
+
+private void SortInteractivesByDistance()
+{
+    m_nearbyInteractiveObjects.Sort(
+        (a, b) =>
         {
-            GUILayout.Label($"Interactive found! {item.name}");
+            var firstDistance = Vector3.Distance(a.transform.position, transform.position);
+            var secondDistance = Vector3.Distance(b.transform.position, transform.position);
+            return firstDistance.CompareTo(secondDistance);
+        }
+    );
+
+    if (m_nearbyInteractiveObjects.Count > 0)
+    {
+        var availableInteractive = m_nearbyInteractiveObjects.FirstOrDefault(n => !n.IsBeingInteractedWith);
+
+        if (availableInteractive != m_selectedInteractive)
+        {
+            SelectInteractive(availableInteractive);
         }
     }
-
-    public void OnInteractionBegin(InteractiveObject interactive)
+    else
     {
-        m_interactingInteractive = interactive;
-        m_rigidBody.isKinematic = true;
+        SelectInteractive(null);
     }
+}
 
-    public void OnInteractionEnd(InteractiveObject interactive)
+private void SelectInteractive(InteractiveObject selection)
+{
+    m_selectedInteractive?.OnDeselect();
+
+    m_selectedInteractive = selection;
+
+    m_selectedInteractive?.OnSelect();
+}
+
+public void RenderEditorGUI()
+{
+    foreach (var item in m_nearbyInteractiveObjects)
     {
-        if (m_interactingInteractive == interactive)
-        {
-            m_rigidBody.isKinematic = false;
-            m_interactingInteractive = null;
-        }
+        GUILayout.Label($"Interactive found! {item.name}");
     }
+}
+
+public void OnInteractionBegin(InteractiveObject interactive)
+{
+    m_interactingInteractive = interactive;
+    m_rigidBody.isKinematic = true;
+}
+
+public void OnInteractionEnd(InteractiveObject interactive)
+{
+    if (m_interactingInteractive == interactive)
+    {
+        m_rigidBody.isKinematic = false;
+        m_interactingInteractive = null;
+    }
+}
 }
