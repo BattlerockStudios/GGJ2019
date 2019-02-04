@@ -5,6 +5,7 @@ using System.Linq;
 
 public class HarpoonController : InteractiveObject
 {
+    #region Private Variables
 
     private Vector2 m_angles = Vector2.one;
 
@@ -40,13 +41,25 @@ public class HarpoonController : InteractiveObject
 
     private Coroutine m_fireRoutineHandle = null;
 
+    private IInputService m_inputService;
+
+    #endregion
+
+
     private void Start()
     {
+        InitializeDependencies();
+
         m_initialXAngle = transform.localRotation.eulerAngles.x;
         m_initialYAngle = transform.localRotation.eulerAngles.y;
 
         m_harpoon.gameObject.SetActive(false);
         m_lineRenderer.gameObject.SetActive(false);
+    }
+
+    private void InitializeDependencies()
+    {
+        m_inputService = new Battlerock.InputService();
     }
 
     public override void BeginInteraction(IInteractionSource interactionSource)
@@ -64,14 +77,14 @@ public class HarpoonController : InteractiveObject
 
         if(isBeingInteractedWith)
         {
-            var horizontal = Input.GetAxisRaw("Mouse X");
-            var vertical = Input.GetAxisRaw("Mouse Y");
+            var horizontal = m_inputService.GetHorizontalDirection();
+            var vertical = m_inputService.GetVerticalDirection();
             m_angles.x = Mathf.Clamp(m_angles.x + horizontal * 2f, -m_maxXAngle, m_maxXAngle);
             m_angles.y = Mathf.Clamp(m_angles.y + vertical * 2f, -m_maxYAngle, m_maxYAngle);
 
             transform.localRotation = Quaternion.AngleAxis(m_angles.x + m_initialYAngle, Vector3.up) * Quaternion.AngleAxis(-m_angles.y + m_initialXAngle, Vector3.right);
         
-            if(Input.GetButtonDown("Submit"))
+            if(m_inputService.GetInteractButtonPressed() == true)
             {
                 if (m_fireRoutineHandle != null)
                 {
@@ -81,7 +94,7 @@ public class HarpoonController : InteractiveObject
                 m_fireRoutineHandle = StartCoroutine(Fire());
             }
 
-            if (Input.GetButtonDown("Cancel"))
+            if (m_inputService.GetExitInteractionButtonReleased() == true)
             {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;

@@ -41,7 +41,7 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
         Fast
     }
 
-
+    private IInputService m_inputService;
 
     [SerializeField]
     private Transform m_waterTransform = null;
@@ -70,7 +70,7 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
 
     public bool OnWheelInteractionUpdate(InteractiveSteeringWheel interactiveSteeringWheel)
     {
-        var horizontalMovement = Input.GetAxisRaw("Horizontal");
+        var horizontalMovement = m_inputService.GetHorizontalDirection();
         transform.Rotate(0f, horizontalMovement * GetSailSpeed() * Time.deltaTime * 10f, 0f);
         m_sway = Mathf.Clamp(m_sway + horizontalMovement, -10f,10f);
 
@@ -79,7 +79,7 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
             ReduceSway();
         }
 
-        if (Input.GetButtonDown("Cancel"))
+        if (m_inputService.GetExitInteractionButtonReleased() == true)
         {
             m_cameraManager.DeregisterTarget("Wheel");
             return false;
@@ -95,6 +95,7 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
 
     private void Start()
     {
+        InitializeDependencies();
         m_cameraManager.RegisterTarget("Boat", m_defaultCameraPosition);
         m_combatEntity.RegisterEventListener(this);
     }
@@ -103,6 +104,11 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
     {
         m_combatEntity.DeregisterEventListener(this);
         m_cameraManager.DeregisterTarget("Boat");
+    }
+
+    private void InitializeDependencies()
+    {
+        m_inputService = new Battlerock.InputService();
     }
 
     private float GetSailSpeed()

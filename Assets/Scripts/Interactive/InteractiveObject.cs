@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class InteractiveObject : MonoBehaviour
 {
-
+    [SerializeField]
+    protected GameObject _exitInteractionButton = null;
     protected Guid m_uniqueID = Guid.NewGuid();
 
     public bool IsBeingInteractedWith
@@ -19,6 +20,9 @@ public class InteractiveObject : MonoBehaviour
 
     public virtual void BeginInteraction(IInteractionSource interactionSource)
     {
+#if UNITY_ANDROID
+        _exitInteractionButton.SetActive(true);
+#endif
         m_interactionSource = interactionSource;
         m_interactionSource.OnInteractionBegin(this);
     }
@@ -40,6 +44,9 @@ public class InteractiveObject : MonoBehaviour
 
     public void ReleaseInteraction()
     {
+#if UNITY_ANDROID
+        _exitInteractionButton.SetActive(false);
+#endif
         m_interactionSource?.OnInteractionEnd(this);
         m_interactionSource = null;
     }
