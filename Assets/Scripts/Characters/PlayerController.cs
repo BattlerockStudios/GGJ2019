@@ -37,26 +37,16 @@ public class PlayerController : MonoBehaviour, IInteractionSource
     private InteractiveObject m_selectedInteractive = null;
     private InteractiveObject m_interactingInteractive = null;
     private DateTime? m_timeOfLastAutoSort = null;
-    private float m_willingness = 0f;
-
-
 
     [SerializeField]
     private Transform m_childTransformToFlip = null;
     private float m_rotationDegrees = 180.0f;
 
-    private IslandController m_islandController = null;
     private BoatController m_boatController = null;
 
     #endregion
 
     #region Public Properties
-
-    public float Willingness
-    {
-        get { return m_willingness; }
-        set { m_willingness = value; }
-    }
 
     public Transform CameraParent
     {
@@ -97,24 +87,16 @@ public class PlayerController : MonoBehaviour, IInteractionSource
             {
                 m_selectedInteractive?.BeginInteraction(this);
             }
-
-            if (m_islandController != null)
-            {
-                if (!Physics.Raycast(transform.position, Vector3.down, 10f) || m_inputService.GetInteractButtonPressed() == true)
-                {
-                    m_islandController = null;
-                    m_boatController.EndIsland(this);
-                    m_boatController = null;
-                }
-
-            }
         }
     }
 
     private void FixedUpdate()
     {
-        var forwardDirection = transform.TransformDirection(new Vector3(m_inputLastFrame.x, 0f, m_inputLastFrame.y));
-        m_rigidBody.MovePosition(transform.position + (forwardDirection * m_moveSpeed * Time.deltaTime));
+        if (m_interactingInteractive == null)
+        {
+            var forwardDirection = transform.TransformDirection(new Vector3(m_inputLastFrame.x, 0f, m_inputLastFrame.y));
+            m_rigidBody.MovePosition(transform.position + (forwardDirection * m_moveSpeed * Time.deltaTime));
+        }
     }
 
     #endregion
@@ -214,12 +196,6 @@ public class PlayerController : MonoBehaviour, IInteractionSource
     public void AbortInteraction()
     {
         m_interactingInteractive?.ReleaseInteraction();
-    }
-
-    public void SetIsland(IslandController island, BoatController boatController)
-    {
-        m_islandController = island;
-        m_boatController = boatController;
     }
 
     public void SetPhysicsEnabled(bool enable)

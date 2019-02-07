@@ -180,12 +180,6 @@ public class HarpoonController : InteractiveObject
         {
             if (hitObject != null)
             {
-                var sourceAsPlayer = m_interactionSource as PlayerController;
-                if (sourceAsPlayer != null)
-                {
-                    sourceAsPlayer.Willingness += .2f;
-                }
-
                 Destroy(hitObject.gameObject);
             }
         }
