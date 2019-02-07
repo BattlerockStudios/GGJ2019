@@ -31,65 +31,40 @@ namespace Battlerock
             InitializeInput();
         }
 
-        public Vector2 GetDirection()
+        public Vector2 GetMovementDirection()
         {
-            return m_action.Direction.Value;
+            return m_action.Movement.Value;
         }
 
-        public float GetHorizontalDirection()
+        public float GetHorizontalMovementDirection()
         {
-            return m_action.Direction.X;
+            return m_action.Movement.X;
         }
 
-        public float GetVerticalDirection()
+        public float GetVerticalMovementDirection()
         {
-            return m_action.Direction.Y;
+            return m_action.Movement.Y;
+        }
+
+        public float GetHorizontalRotationDirection()
+        {
+            return m_action.Rotation.X;
+        }
+
+        public float GetVerticalRotationDirection()
+        {
+            return m_action.Rotation.Y;
         }
 
         public bool GetInteractButtonPressed()
         {
             return m_action.Interact.WasPressed;
-        }
-
-        public bool GetInteractButtonReleased()
-        {
-            return m_action.Interact.WasReleased;
-        }
+        }     
 
         public bool GetExitInteractionButtonPressed()
         {
             return m_action.ExitInteraction.WasPressed;
-        }
-
-        public bool GetExitInteractionButtonReleased()
-        {
-            return m_action.ExitInteraction.WasReleased;
-        }
-
-        public string GetInteractButtonName()
-        {
-            return m_action.Interact.Name;
-        }
-
-        public float GetLeftDirection()
-        {
-            return m_action.Direction.Left.Value;
-        }
-
-        public float GetRightDirection()
-        {
-            return m_action.Direction.Right.Value;
-        }
-
-        public float GetUpDirection()
-        {
-            return m_action.Direction.Up.Value;
-        }
-
-        public float GetDownDirection()
-        {
-            return m_action.Direction.Down.Value;
-        }
+        } 
 
         /// <summary>
         /// Sets up the InControl input system for keyboard/mouse and controllers.
@@ -101,16 +76,22 @@ namespace Battlerock
             #region Gamepad Controller
 
             // D-Pad
-            Action.Left.AddDefaultBinding(InputControlType.DPadLeft);
-            Action.Right.AddDefaultBinding(InputControlType.DPadRight);
-            Action.Up.AddDefaultBinding(InputControlType.DPadUp);
-            Action.Down.AddDefaultBinding(InputControlType.DPadDown);
+            Action.MoveLeft.AddDefaultBinding(InputControlType.DPadLeft);
+            Action.MoveRight.AddDefaultBinding(InputControlType.DPadRight);
+            Action.MoveUp.AddDefaultBinding(InputControlType.DPadUp);
+            Action.MoveDown.AddDefaultBinding(InputControlType.DPadDown);
 
             // Left Analog Stick
-            Action.Left.AddDefaultBinding(InputControlType.LeftStickLeft);
-            Action.Right.AddDefaultBinding(InputControlType.LeftStickRight);
-            Action.Up.AddDefaultBinding(InputControlType.LeftStickUp);
-            Action.Down.AddDefaultBinding(InputControlType.LeftStickDown);
+            Action.MoveLeft.AddDefaultBinding(InputControlType.LeftStickLeft);
+            Action.MoveRight.AddDefaultBinding(InputControlType.LeftStickRight);
+            Action.MoveUp.AddDefaultBinding(InputControlType.LeftStickUp);
+            Action.MoveDown.AddDefaultBinding(InputControlType.LeftStickDown);
+
+            // Right Analog Stick
+            Action.RotateLeft.AddDefaultBinding(InputControlType.RightStickLeft);
+            Action.RotateRight.AddDefaultBinding(InputControlType.RightStickRight);
+            Action.RotateUp.AddDefaultBinding(InputControlType.RightStickUp);
+            Action.RotateDown.AddDefaultBinding(InputControlType.RightStickDown);
 
             // Buttons
             Action.Interact.AddDefaultBinding(InputControlType.Action1);
@@ -120,23 +101,33 @@ namespace Battlerock
 
             #region Keyboard + Mouse
 
-            Action.Left.AddDefaultBinding(Mouse.NegativeX);
-            Action.Right.AddDefaultBinding(Mouse.PositiveX);
-            Action.Up.AddDefaultBinding(Mouse.PositiveY);
-            Action.Down.AddDefaultBinding(Mouse.NegativeY);
+            #region Rotation Input
+           
+            Action.RotateLeft.AddDefaultBinding(Mouse.NegativeX);
+            Action.RotateRight.AddDefaultBinding(Mouse.PositiveX);
+            Action.RotateUp.AddDefaultBinding(Mouse.PositiveY);
+            Action.RotateDown.AddDefaultBinding(Mouse.NegativeY);
 
-            Action.Left.AddDefaultBinding(Key.LeftArrow);
-            Action.Right.AddDefaultBinding(Key.RightArrow);
-            Action.Left.AddDefaultBinding(Key.A);
-            Action.Right.AddDefaultBinding(Key.D);
+            #endregion
 
-            Action.Up.AddDefaultBinding(Key.UpArrow);
-            Action.Down.AddDefaultBinding(Key.DownArrow);
-            Action.Up.AddDefaultBinding(Key.W);
-            Action.Down.AddDefaultBinding(Key.S);
+            #region Movement Input
+           
+            Action.MoveLeft.AddDefaultBinding(Key.LeftArrow);
+            Action.MoveRight.AddDefaultBinding(Key.RightArrow);
+            Action.MoveUp.AddDefaultBinding(Key.UpArrow);
+            Action.MoveDown.AddDefaultBinding(Key.DownArrow);
+
+            Action.MoveLeft.AddDefaultBinding(Key.A);
+            Action.MoveRight.AddDefaultBinding(Key.D);
+            Action.MoveUp.AddDefaultBinding(Key.W);
+            Action.MoveDown.AddDefaultBinding(Key.S);
+
+            #endregion
 
             Action.Interact.AddDefaultBinding(Key.Z);
             Action.ExitInteraction.AddDefaultBinding(Key.X);
+            Action.Interact.AddDefaultBinding(Mouse.LeftButton);
+            Action.ExitInteraction.AddDefaultBinding(Mouse.RightButton);
 
             #endregion
         }
