@@ -118,8 +118,6 @@ namespace Battlerock
 
             #endregion
 
-#if !UNITY_ANDROID
-
             #region Keyboard + Mouse
 
             Action.Left.AddDefaultBinding(Mouse.NegativeX);
@@ -138,13 +136,9 @@ namespace Battlerock
             Action.Down.AddDefaultBinding(Key.S);
 
             Action.Interact.AddDefaultBinding(Key.Z);
-            Action.Special.AddDefaultBinding(Key.X);
+            Action.ExitInteraction.AddDefaultBinding(Key.X);
 
             #endregion
-
-#endif
-
-            //Debug.LogFormat("<color=grey>Move State:</color> <color=yellow><b>{0}</b></color>", states.movement.ToString());
         }
     }
 }
