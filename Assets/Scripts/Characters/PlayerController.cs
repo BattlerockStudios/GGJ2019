@@ -68,8 +68,8 @@ public class PlayerController : MonoBehaviour, IInteractionSource
     {
         if (m_interactingInteractive == null)
         {
-            var verticalMovement = m_inputService.GetVerticalDirection();
-            var horizontalMovement = m_inputService.GetHorizontalDirection();
+            var verticalMovement = m_inputService.GetVerticalMovementDirection();
+            var horizontalMovement = m_inputService.GetHorizontalMovementDirection();
 
             m_inputLastFrame = new Vector2(horizontalMovement, verticalMovement);
 

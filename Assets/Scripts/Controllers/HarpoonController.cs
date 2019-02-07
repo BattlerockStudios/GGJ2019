@@ -77,8 +77,8 @@ public class HarpoonController : InteractiveObject
 
         if(isBeingInteractedWith)
         {
-            var horizontal = m_inputService.GetHorizontalDirection();
-            var vertical = m_inputService.GetVerticalDirection();
+            var horizontal = m_inputService.GetHorizontalRotationDirection();
+            var vertical = m_inputService.GetVerticalRotationDirection();
             m_angles.x = Mathf.Clamp(m_angles.x + horizontal * 2f, -m_maxXAngle, m_maxXAngle);
             m_angles.y = Mathf.Clamp(m_angles.y + vertical * 2f, -m_maxYAngle, m_maxYAngle);
 
@@ -94,7 +94,7 @@ public class HarpoonController : InteractiveObject
                 m_fireRoutineHandle = StartCoroutine(Fire());
             }
 
-            if (m_inputService.GetExitInteractionButtonReleased() == true)
+            if (m_inputService.GetExitInteractionButtonPressed() == true)
             {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;

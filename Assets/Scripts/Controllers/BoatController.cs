@@ -60,7 +60,7 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
     
     public bool OnWheelInteractionUpdate(InteractiveSteeringWheel interactiveSteeringWheel)
     {
-        var horizontalMovement = m_inputService.GetHorizontalDirection();
+        var horizontalMovement = m_inputService.GetHorizontalMovementDirection();
         transform.Rotate(0f, horizontalMovement * GetSailSpeed() * Time.deltaTime * 10f, 0f);
         m_sway = Mathf.Clamp(m_sway + horizontalMovement, -10f,10f);
 
@@ -69,7 +69,7 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
             ReduceSway();
         }
 
-        if (m_inputService.GetExitInteractionButtonReleased() == true)
+        if (m_inputService.GetExitInteractionButtonPressed() == true)
         {
             m_cameraManager.DeregisterTarget("Wheel");
             return false;
