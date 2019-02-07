@@ -138,7 +138,7 @@ namespace Battlerock
             Action.Down.AddDefaultBinding(Key.S);
 
             Action.Interact.AddDefaultBinding(Key.Z);
-            //Action.Special.AddDefaultBinding(Key.X);
+            Action.Special.AddDefaultBinding(Key.X);
 
             #endregion
 
