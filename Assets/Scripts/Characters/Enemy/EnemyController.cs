@@ -5,34 +5,6 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
 
-    private CombatEntity m_target = null;
-
-    [SerializeField]
-    private float m_moveSpeed = 1f;
-
-    [SerializeField]
-    private float m_rotateSpeed = 1f;
-
-    [SerializeField]
-    private float m_slowRange = 20f;
-
-    private EnemyBoundary m_boundary = null;
-
-    private Transform m_targetPosition = null;
-
-    private DateTime? m_timeOfLastAttack = null;
-
-    private Coroutine m_attackRoutine = null;
-
-
-
-    private double m_timeTillNextAttack = 0;
-
-    private void Start()
-    {
-        m_timeTillNextAttack = UnityEngine.Random.Range(2, 6);
-    }
-
     public void SetTarget(CombatEntity entity)
     {
         m_target = entity;
@@ -42,30 +14,35 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        m_timeTillNextAttack = UnityEngine.Random.Range(2, 6);
+    }
+
     private void Update()
     {
-        if(m_target != null)
+        if (m_target != null)
         {
             if (m_targetPosition == null)
             {
                 m_targetPosition = m_target.GetCombatPosition(this);
             }
 
-            if(m_targetPosition == null)
+            if (m_targetPosition == null)
             {
                 return;
             }
 
             var distanceToTarget = Vector3.Distance(transform.position, m_targetPosition.position);
             var currentSpeed = m_moveSpeed;
-            if(distanceToTarget <= m_slowRange)
+            if (distanceToTarget <= m_slowRange)
             {
                 currentSpeed = Mathf.Lerp(m_slowRange, 1f, distanceToTarget / m_slowRange);
             }
 
             transform.Translate(transform.forward * currentSpeed * Time.deltaTime, Space.World);
 
-            if(distanceToTarget < .5f)
+            if (distanceToTarget < .5f)
             {
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation((m_target.transform.position - transform.position).normalized), m_rotateSpeed * Time.deltaTime);
                 AttemptAttack();
@@ -73,14 +50,6 @@ public class EnemyController : MonoBehaviour
             else
             {
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation((m_targetPosition.position - transform.position).normalized), m_rotateSpeed * Time.deltaTime);
-            }
-
-            if (m_boundary != null)
-            {
-                if (!m_boundary.IsWithin(transform.position))
-                {
-                    Reset();
-                }
             }
         }
     }
@@ -148,7 +117,7 @@ public class EnemyController : MonoBehaviour
 
     private void AttemptAttack()
     {
-        if(m_attackRoutine != null)
+        if (m_attackRoutine != null)
         {
             return;
         }
@@ -163,5 +132,20 @@ public class EnemyController : MonoBehaviour
     {
         m_target?.ReleaseCombatPosition(m_targetPosition);
     }
+
+    [SerializeField]
+    private float m_moveSpeed = 1f;
+
+    [SerializeField]
+    private float m_rotateSpeed = 1f;
+
+    [SerializeField]
+    private float m_slowRange = 20f;
+    
+    private Transform m_targetPosition = null;
+    private DateTime? m_timeOfLastAttack = null;
+    private Coroutine m_attackRoutine = null;
+    private double m_timeTillNextAttack = 0;
+    private CombatEntity m_target = null;
 
 }

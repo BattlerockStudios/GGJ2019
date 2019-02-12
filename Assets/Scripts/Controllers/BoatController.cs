@@ -7,6 +7,9 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
 {
 
     [SerializeField]
+    private Rigidbody m_rigidBody = null;
+
+    [SerializeField]
     private CameraManager m_cameraManager = null;
 
     [SerializeField]
@@ -115,14 +118,17 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
     private void Update()
     {
         m_currentSpeedFloat = Mathf.Lerp(m_currentSpeedFloat, GetSailSpeed(), Time.deltaTime * 3f);
-        transform.Translate(Vector3.forward * m_currentSpeedFloat * Time.deltaTime, Space.Self);
-
         m_visualParent.transform.localRotation = Quaternion.Euler(0f, 0f, -m_sway);
 
         if (!m_wheel.IsBeingInteractedWith)
         {
             ReduceSway();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        //m_rigidBody.MovePosition(m_rigidBody.position + (Vector3.forward * m_currentSpeedFloat * Time.deltaTime));
     }
 
     private void ReduceSway()
