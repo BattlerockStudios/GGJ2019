@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BoatController : MonoBehaviour, ICombatEntityEventListener
 {
@@ -14,14 +11,14 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
 
     [SerializeField]
     private CombatEntity m_combatEntity = null;
-    
+
     private SailSpeed m_currentSpeed = SailSpeed.Slow;
 
     public void ToggleSailSpeed()
     {
         var currentValue = (int)m_currentSpeed;
         currentValue++;
-        if(currentValue > (int)SailSpeed.Fast)
+        if (currentValue > (int)SailSpeed.Fast)
         {
             currentValue = 0;
         }
@@ -60,12 +57,12 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
     {
         m_cameraManager.RegisterTarget("Wheel", m_drivingCameraPosition);
     }
-    
+
     public bool OnWheelInteractionUpdate(InteractiveSteeringWheel interactiveSteeringWheel)
     {
         var horizontalMovement = m_inputService.GetHorizontalMovementDirection();
         transform.Rotate(0f, horizontalMovement * GetSailSpeed() * Time.deltaTime * 10f, 0f);
-        m_sway = Mathf.Clamp(m_sway + horizontalMovement, -10f,10f);
+        m_sway = Mathf.Clamp(m_sway + horizontalMovement, -10f, 10f);
 
         if (Mathf.Abs(horizontalMovement) < float.Epsilon)
         {
@@ -128,7 +125,7 @@ public class BoatController : MonoBehaviour, ICombatEntityEventListener
 
     private void FixedUpdate()
     {
-        //m_rigidBody.MovePosition(m_rigidBody.position + (Vector3.forward * m_currentSpeedFloat * Time.deltaTime));
+        m_rigidBody.MovePosition(m_rigidBody.position + (transform.forward * m_currentSpeedFloat * Time.deltaTime));
     }
 
     private void ReduceSway()

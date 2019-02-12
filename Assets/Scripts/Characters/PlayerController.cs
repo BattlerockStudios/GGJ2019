@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour, IInteractionSource
 {
     #region Private Constants
@@ -29,10 +27,8 @@ public class PlayerController : MonoBehaviour, IInteractionSource
     private float m_rotationSpeed = 5f;
 
     [SerializeField]
-    private Rigidbody m_rigidBody = null;
     private Animator m_animator = null;
 
-    private Vector2 m_inputLastFrame = Vector2.zero;
     private readonly List<InteractiveObject> m_nearbyInteractiveObjects = new List<InteractiveObject>();
     private InteractiveObject m_selectedInteractive = null;
     private InteractiveObject m_interactingInteractive = null;
@@ -60,7 +56,6 @@ public class PlayerController : MonoBehaviour, IInteractionSource
     private void Start()
     {
         m_animator = GetComponent<Animator>();
-        InitializeRigidbody();
         InitializeDependencies();
     }
 
@@ -71,9 +66,11 @@ public class PlayerController : MonoBehaviour, IInteractionSource
             var verticalMovement = m_inputService.GetVerticalMovementDirection();
             var horizontalMovement = m_inputService.GetHorizontalMovementDirection();
 
-            m_inputLastFrame = new Vector2(horizontalMovement, verticalMovement);
+            var axisAlignedMovement = new Vector2(horizontalMovement, verticalMovement);
+            var forwardDirection = new Vector3(axisAlignedMovement.x, 0f, axisAlignedMovement.y);
+            transform.Translate(forwardDirection * m_moveSpeed * Time.deltaTime, Space.Self);
 
-            m_animator.SetFloat("MoveSpeed", m_inputLastFrame.magnitude);
+            m_animator.SetFloat("MoveSpeed", axisAlignedMovement.magnitude);
 
             FlipCharacter(horizontalMovement);
 
@@ -90,24 +87,9 @@ public class PlayerController : MonoBehaviour, IInteractionSource
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (m_interactingInteractive == null)
-        {
-            var forwardDirection = transform.TransformDirection(new Vector3(m_inputLastFrame.x, 0f, m_inputLastFrame.y));
-            m_rigidBody.MovePosition(transform.position + (forwardDirection * m_moveSpeed * Time.deltaTime));
-        }
-    }
-
     #endregion
 
     #region Private Methods
-
-    private void InitializeRigidbody()
-    {
-        m_rigidBody = GetComponent<Rigidbody>();
-        m_rigidBody.interpolation = RigidbodyInterpolation.Interpolate;
-    }
 
     private void InitializeDependencies()
     {
@@ -200,7 +182,7 @@ public class PlayerController : MonoBehaviour, IInteractionSource
 
     public void SetPhysicsEnabled(bool enable)
     {
-        m_rigidBody.isKinematic = !enable;
+        // ZAS: We should never set isKinematic to false, otherwise the boat considers the player a child physics body and will fall
     }
 
     public void RenderEditorGUI()
@@ -214,14 +196,14 @@ public class PlayerController : MonoBehaviour, IInteractionSource
     public void OnInteractionBegin(InteractiveObject interactive)
     {
         m_interactingInteractive = interactive;
-        m_rigidBody.isKinematic = true;
+        //m_rigidBody.isKinematic = true;
     }
 
     public void OnInteractionEnd(InteractiveObject interactive)
     {
         if (m_interactingInteractive == interactive)
         {
-            m_rigidBody.isKinematic = false;
+            //m_rigidBody.isKinematic = false;
             m_interactingInteractive = null;
         }
     }
